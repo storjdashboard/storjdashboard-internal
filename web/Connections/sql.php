@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 # FileName="Connection_php_mysql.htm"
 # Type="MYSQL"
 # HTTP="true"
