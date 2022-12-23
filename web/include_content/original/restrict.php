@@ -27,15 +27,12 @@ function isAuthorized($strUsers, $strGroups, $UserName) {
 }
 
 $SD_restrictGoTo = "login.html";
-if (!((isset($_SESSION['SD_Username'])) && (isAuthorized("","", $_SESSION['SD_Username'])))) {   
+if (!((isset($_SESSION['SD_Username'])) && (isAuthorized("",$SD_authorizedUsers, $_SESSION['SD_Username'])))) {   
   $SD_qsChar = "?";
   $SD_referrer = $_SERVER['PHP_SELF'];
   if (strpos($SD_restrictGoTo, "?")) $SD_qsChar = "&";
   if (isset($_SERVER['QUERY_STRING']) && strlen($_SERVER['QUERY_STRING']) > 0) 
   $SD_referrer .= "?" . $_SERVER['QUERY_STRING'];
-  $SD_referrer = str_replace("index.php","",$SD_referrer);
-  $SD_referrer = str_replace(".php","",$SD_referrer);
-
   $SD_restrictGoTo = $SD_restrictGoTo. $SD_qsChar . "redirect=" . $SD_referrer;
   header("Location: ". $SD_restrictGoTo); 
   exit;

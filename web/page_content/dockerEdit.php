@@ -1,11 +1,11 @@
 <?php 
 $id = $_GET['id'];
-$nodes_query = "SELECT * FROM storj_dashboard.nodes where node_id = '$id' order by ip asc;";
+$nodes_query = "SELECT * FROM storj_dashboard.docker where id = '$id'";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);
 
-	$node_id = $nodes_row['node_id'];
+	$node_id = $nodes_row['id'];
 ?>
 <?php 
 function formatSize($bytes,$decimals=2){
@@ -18,16 +18,15 @@ function formatSize($bytes,$decimals=2){
 
 //
 if(isset($_POST['submit'])){
-	
 
 	$server_ip = $_POST['node_ip'];
 	$server_port = $_POST['node_port'];
 	
-$docker_query = "UPDATE `storj_dashboard`.`nodes` SET `port`='$server_port', `ip`='$server_ip' WHERE  `node_id`='$node_id';";
+$docker_query = "UPDATE `storj_dashboard`.`docker` SET `port`='$server_port', `server_ip`='$server_ip' WHERE  `id`='$node_id';";
 $docker_result = mysqli_query($sql, $docker_query);
 	?>
-<h1>Updated Node</h1>
-<a href="./" class="btn btn-primary btn-user"><i class="fas fa fa-long-arrow-left"></i> Dashboard</a>
+<h1>Updated Docker Agent</h1>
+<a href="./?page=dockerView" class="btn btn-primary btn-user"><i class="fas fa fa-long-arrow-left"></i> Docker List</a>
 <?php
 	exit;
 }
@@ -36,8 +35,8 @@ $docker_result = mysqli_query($sql, $docker_query);
 
                     <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Editing [<?php echo $nodes_row['ip'].":".$nodes_row['port']; ?>]</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#node_delete_modal"><i class="fas fa-trash" ></i> Delete Node</a>
+                        <h1 class="h3 mb-0 text-gray-800">Editing [<?php echo $nodes_row['server_ip'].":".$nodes_row['port']; ?>]</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#node_delete_modal"><i class="fas fa-trash" ></i> Delete Docker Agent</a>
                     </div>
 
                     <!-- Content Row --><!-- Content Row --><!--- ROW --><!-- Content Row -->
@@ -62,7 +61,7 @@ $docker_result = mysqli_query($sql, $docker_query);
 
 <div class="form-group">
     <label for="node_ip">Node IP</label>
-    <input name="node_ip" type="text" autofocus="autofocus" required="required" class="form-control" id="node_ip" placeholder="Example: 192.168.5.101" value="<?php echo $nodes_row['ip'];?>">
+    <input name="node_ip" type="text" autofocus="autofocus" required="required" class="form-control" id="node_ip" placeholder="Example: 192.168.5.101" value="<?php echo $nodes_row['server_ip'];?>">
   </div>                                    
 
 <div class="form-group">
@@ -76,7 +75,7 @@ $docker_result = mysqli_query($sql, $docker_query);
                                 <button type="submit" class="btn btn-primary btn-user">
                                     Update
                                 </button>
-                                <a href="./" class="btn btn-secondary btn-user">
+                                <a href="./?page=dockerView" class="btn btn-secondary btn-user">
                                     Back
                                 </a>
 </div>                                
@@ -103,11 +102,11 @@ $docker_result = mysqli_query($sql, $docker_query);
         </button>
       </div>
       <div class="modal-body">
-        You will be deleting this node if you continue.
+        You will be deleting this docker agent if you continue.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-        <a href="./nodeDelete.php?id=<?php echo $node_id; ?>" type="button" class="btn btn-danger">Delete Node</a>
+        <a href="./dockerDelete.php?id=<?php echo $node_id; ?>" type="button" class="btn btn-danger">Delete Node</a>
       </div>
     </div>
   </div>

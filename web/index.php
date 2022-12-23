@@ -1,6 +1,13 @@
+<?php
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
+// COUNTING PAGE TIME
+?>
 <?php require_once("cfg.php"); ?>
-<?php require_once("Connections/sql.php"); ?>
-<?php require_once("include_content/restrict.php"); ?>
+<?php if($config_row['restrict']==1){ require_once($resitrct_file); } ?>
+<?php require_once($sql_conn_file); ?>
 <?php if($_SERVER['QUERY_STRING']==''){	header("location: ./?page=dashboard"); };	?>
 
 <!DOCTYPE html>
@@ -24,7 +31,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/storj-internal.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -81,24 +88,7 @@ $page =	$_GET['page']; }else{ $page = "index"; } ?>
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-dark" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<?php include("include_content/modals/logout.html"); ?>
 
     <!-- Bootstrap core JavaScript-->
 
@@ -109,7 +99,7 @@ $page =	$_GET['page']; }else{ $page = "index"; } ?>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/storj-internal.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
@@ -128,3 +118,13 @@ $page =	$_GET['page']; }else{ $page = "index"; } ?>
 </body>
 
 </html>
+<?php
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$finish = $time;
+$total_time = round(($finish - $start), 4);
+?>
+<script>
+$('#pageload_time').html("Page generated in <strong><?php echo $total_time;?></strong> seconds.");
+</script>

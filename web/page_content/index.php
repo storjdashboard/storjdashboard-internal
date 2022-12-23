@@ -29,13 +29,17 @@ function stopFunction(){
 $(document).ready(function(){
 	$('#data_LiveMbps').html("<div class='d-flex align-items-center'><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i></div>").delay(500);
     LiveMbps();
+
+$('#online_audit_susp').load("include_content/scripts/nodes/nodes_Scores.php").delay(500);
+
+$('#total_pay').load("include_content/scripts/nodes/paystubs_getData.php").delay(500);
 });
 </script>
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm"><i class="fas fa-fw fa-cog"></i> Customise</a>
+                        <a href="./?page=settingsFeatures" class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm"><i class="fas fa-fw fa-cog"></i> Customise</a>
                     </div>
 
                     <!-- Content Row -->
@@ -49,10 +53,14 @@ $(document).ready(function(){
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                                                 Online</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="nodes_online_count"></span>/<?php echo $nodes_total ;?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<span id="nodes_online_count">
+<i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i>
+</span>
+					</div>
                                         </div>
                                         <div class="col-auto">
-                                          <i class="fas fa-globe fa-2x text-gray-300"></i>
+                                          <i class="fas fa-server fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -66,10 +74,12 @@ $(document).ready(function(){
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Online / Audit / Suspension</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">100% / 100% / 100%</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="online_audit_susp">
+<i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i>
+</span></div>
                                         </div>
                                         <div class="col-auto">
-                                          <i class="fas fa-check fa-2x text-gray-300"></i>
+                                          <i class="fas fa-power-off fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +95,10 @@ $(document).ready(function(){
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Current Month</div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">$<span id="current_month_payout"></span></div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">$
+ <span id="current_month_payout">
+<i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i>
+</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -104,18 +117,68 @@ $(document).ready(function(){
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                DATA</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">TEXT</div>
+                                                Total Paid</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+$<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i></span></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-university fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+<!---- second line -- server and mem config -->
+	<?php if($config_row['show_server_info']){ ?>				
+	<div class="row">
 
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-dark shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                                                CPU Load</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<?php include_once("include_content/scripts/server_info/cpu_load.php"); ?>
+					</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fa-solid fa-microchip fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Memory</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<?php include_once("include_content/scripts/server_info/memory.php");?>
+											</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fa-solid fa-memory fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        
+
+                        <!-- Pending Requests Card Example -->
+                        
+                    </div>	
+	<?php } ?>
                     <!-- Content Row -->
                     		<div class="row">
 
@@ -131,11 +194,8 @@ $(document).ready(function(){
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"> </div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-header">NODES:</div>
+                                            <a class="dropdown-item" href="./?page=nodeAdd">Add Node</a>
                                         </div>
                                     </div>                                    
                                 </div>
@@ -146,6 +206,7 @@ $(document).ready(function(){
     <tr>
       <th scope="col">IP</th>
       <th scope="col">Status</th>
+      <th scope="col">QUIC</th>
       <th scope="col">Bandwidth</th>
       <th scope="col">Storage</th>
     </tr>
@@ -163,7 +224,7 @@ $payout_overall_held=0;
 
 $ctx = stream_context_create(array('http'=>
     array(
-        'timeout' => 2,  //1200 Seconds is 20 Minutes	
+        'timeout' => 10,  //1200 Seconds is 20 Minutes	
     )
 ));
 ?>
@@ -180,6 +241,9 @@ if(is_array($arr)){
 	$validCheck = count($arr);
 }else{
 	$validCheck = 0;
+	$node_quic = null;
+	$node_ver = null;
+	
 }
 if($validCheck>0){
 
@@ -187,11 +251,13 @@ $capacity = formatSize($arr['diskSpace']['available']);
 $storage = formatSize($arr['diskSpace']['used']+$arr['diskSpace']['trash']);
 $bandwidth = formatSize($arr['bandwidth']['used']);
 $node_ver = $arr['version'];
+$node_quic = $arr['quicStatus'];
 
 $LastPingToTime = explode(".",$arr['lastPinged']);
 $LastPingToTime = strtotime($LastPingToTime[0]);
 $onlineCalc = round(time()-$LastPingToTime);
-if($onlineCalc<=30){$onlineResult = 1;}else{$onlineResult = 0;}
+//if($onlineCalc<=30){$onlineResult = 1;}else{$onlineResult = 0;}
+if($validCheck>0){$onlineResult = 1;}else{$onlineResult = 0;}	
 }else{
 	$onlineResult = 0;
 	$capacity = "";
@@ -205,8 +271,8 @@ if($onlineResult == 1){ // continue if working
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/estimated-payout", false, $ctx);
 $arr = json_decode($jsonobj, true);
 
-$payout_total = $arr['currentMonth']['egressBandwidthPayout']+$arr['currentMonth']['egressRepairAuditPayout']+$arr['currentMonth']['diskSpacePayout'];
-$payout_held = $arr['currentMonth']['held'];
+$payout_total = $arr['currentMonth']['egressBandwidthPayout']+$arr['currentMonth']['egressRepairAuditPayout']+$arr['currentMonth']['diskSpacePayout']; 		// issue
+$payout_held = $arr['currentMonth']['held']; 																												// issue
 
 $payout_overall_held = $payout_overall_held+$payout_held;
 $payout_overall = $payout_overall+$payout_total;
@@ -263,6 +329,23 @@ $arr_counter = $arr_counter+1;
           </span>                
         <?php } ?>
       </td>
+      <td nowrap="nowrap">
+        <?php if($node_quic == 'OK'){ ?>
+        <span class="btn-success btn-icon-split btn-sm">
+          <span class="icon text-white-50">
+            <i class="fas fa-check"></i>
+            </span>
+          <span class="text">OK</span>
+          </span>  
+        <?php }else{?>
+        <span class="btn-danger btn-icon-split btn-sm">
+          <span class="icon text-white-50">
+            <i class="fas fa-times"></i>
+            </span>
+          <span class="text">ERROR</span>
+          </span>                
+        <?php } ?>		
+		</td>
       <td nowrap="nowrap"><?php echo $bandwidth; ?></td>
       <td nowrap="nowrap"><?php echo $storage; ?> / <?php echo $capacity; ?></td>
     
@@ -278,13 +361,13 @@ $arr_counter = $arr_counter+1;
 
 <script type='text/javascript'>
     $(function(){  
-        $('#nodes_online_count').html('<?php echo $onlineCounter; ?>');
+        $('#nodes_online_count').html('<?php echo $onlineCounter; ?>/<?php echo $nodes_total ;?>');
     });
 </script>
 
 <script type='text/javascript'>
     $(function(){  
-        $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2); ?>');
+        $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2);?>');
     });
 </script>
 
@@ -307,18 +390,7 @@ $arr_counter = $arr_counter+1;
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-dark">Live Bandwidth</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -338,18 +410,6 @@ $arr_counter = $arr_counter+1;
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-dark">Daily Summary</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body pt-0">
@@ -387,75 +447,7 @@ do{ ?>
                     
                        <!-- Content Row -->
 
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-dark">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                        <canvas id="myAreaChart" style="display: block; width: 489px; height: 320px;" width="489" height="320" class="chartjs-render-monitor"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-dark">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                        <canvas id="myPieChart" width="812" height="245" style="display: block; width: 812px; height: 245px;" class="chartjs-render-monitor"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-dark"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <!-- Content Row --></div>
                     
