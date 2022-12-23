@@ -1,14 +1,15 @@
 <?php // get latest version info from github // 
 $github_version = null;
 $file_get_github = @file_get_contents("https://raw.githubusercontent.com/storjdashboard/storjdashboard-internal/main/latest_version"); 
-
-$file_get_github = "1.0.0.0"; // DEBUG
+$file_get_github = trim($file_get_github);
+				$config_row['version'] = "1.0.0.0"; // DEBUG
+				$file_get_github = "1.0.0.1"; // DEBUG
 	
 if($file_get_github>0){
-	$github_version = $file_get_github;
-}else{
+	$github_version = $file_get_github; 
+}else{ 
 	$github_version = " UNABLE TO READ GITHUB";
-}
+} 
 ?>
 <div class="container-fluid">
 
@@ -42,10 +43,17 @@ if($file_get_github>0){
 							<p><strong>Github Version:</strong> v<?php echo $github_version; ?></p>
 							
 <?php if($file_get_github>0){							?>
+							
 							<?php if($config_row['version']==$github_version){ ?>
 							<p class="btn btn-success">You have the latest version !</p>
 <?php }else{ ?>
-							<p class="btn btn-warning text-dark">You need to update your version !</p>
+							<p>Update is available</p>
+							<p><a href="./?page=settingsUpdates&upgrade=1" class="btn btn-warning text-dark">Click to update !</a></p>
+							<p><?php if(isset($_GET['upgrade']) && $_GET['upgrade']==1){ ?>
+
+								<?php include_once("$root_dir/include_content/scripts/update/fileDownload.php"); ?>
+<?php	} ?>
+							</p>
 <?php
 	}
 }  ?>
