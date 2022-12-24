@@ -17,20 +17,24 @@ $url = "https://github.com/storjdashboard/storjdashboard-internal/archive/refs/t
 
     if (file_put_contents($directory.$file_name, @file_get_contents($url)))
     {
-        echo "<p>File downloaded successfully in ".number_format(microtime(true) - $start_time, 2)." seconds.</p>";
+        echo "<p>[<strong>PASS</strong>] File downloaded successfully in ".number_format(microtime(true) - $start_time, 2)." seconds.</p>";
     }
     else
-    { echo "<p>Update failed.</p>"; exit; }
+    { echo "<p>[<strong>FAIL</strong>] Update failed.</p>"; exit; }
 
 	//check file exists 
 	clearstatcache();
 	if(file_exists($directory.$file_name)){
-	echo "<p>File Found</p>";
+	echo "<p>[<strong>PASS</strong>] File Found</p>";
+	}else{
+	echo "<p>[<strong>FAIL</strong>] File Not Found</p>";
 	}
 	//check file size
 	$filesize = filesize($directory.$file_name);
-	if($filesize>0){
-	echo "<p>File is Valid (".number_format($filesize,0)." Bytes)</p>";
+	if($filesize>1024){
+	echo "<p>[<strong>PASS</strong>] File is Valid (".number_format($filesize,0)." Bytes)</p>";
+	}else{
+	echo "<p>[<strong>FAIL</strong>] File is Not Valid (".number_format($filesize,0)." Bytes)</p>";
 	}
 
 ?>
