@@ -1,6 +1,6 @@
 <?php
 ///config file
-$root_dir = "/var/www/html/sd-internal";
+$root_dir = "/var/www/";
 $root_url_dir = ".";
 $sql_conn_file = "Connections/sql.php";
 ?>
