@@ -5,7 +5,7 @@
 
 <?php
 $node_id = $_GET['id'];
-$docker_query = "DELETE FROM `storj_dashboard`.`docker` WHERE  `id`='$node_id';";
+$docker_query = "DELETE FROM `$database_sql`.`docker` WHERE  `id`='$node_id';";
 $docker_result = mysqli_query($sql, $docker_query);
 header("location: ./?page=dockerView");
 ?>

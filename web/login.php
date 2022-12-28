@@ -23,9 +23,21 @@ if (isset($_POST['user'])) {
   $loginUsername=$_POST['user'];
   $password=hash("sha384",$_POST['pw']);
   $SD_fldUserAuthorization = "";
-  $SD_redirectLoginSuccess = $root_url_dir."/";
-  $SD_redirectLoginFailed = $root_url_dir."/login.html?error";
-  mysqli_select_db($sql,$database_sql);
+
+
+if(isset($_POST['redirect'])){
+
+if($_POST['redirect']<>''){
+	$SD_redirectLoginFailed = $root_url_dir."/login.html?error=1&redirect=".$_POST['redirect'];
+	$SD_redirectLoginSuccess = $_POST['redirect'];
+}else{
+	$SD_redirectLoginFailed = $root_url_dir."/login.html?error=1";
+	$SD_redirectLoginSuccess = $root_url_dir."/";
+}  
+
+}
+
+mysqli_select_db($sql,$database_sql);
   
   $LoginRS__query=sprintf("SELECT user,pw FROM login WHERE user='%s' AND pw='%s'",
     $loginUsername, $password); 
@@ -41,7 +53,8 @@ if (isset($_POST['user'])) {
     //declare two session variables and assign them
     $_SESSION['SD_Username'] = $loginUsername;
 
-    header("Location: " . $SD_redirectLoginSuccess );
+    //header("Location: " . $SD_redirectLoginSuccess );
+	header("Location: " . $SD_redirectLoginSuccess );
 	 }
 	else {
 	  //failed
