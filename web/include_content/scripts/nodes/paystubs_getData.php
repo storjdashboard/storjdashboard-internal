@@ -3,16 +3,23 @@
 <?php require_once("../../restrict.php"); ?>
 <?php 
 // first month 
-//SELECT * FROM `storj_dashboard`.`paystubs` ORDER BY `period` ASC LIMIT 1;
-$stubs_query = "SELECT * FROM `storj_dashboard`.`paystubs` ORDER BY `period` ASC LIMIT 1;";
+//SELECT * FROM `$database_sql`.`paystubs` ORDER BY `period` ASC LIMIT 1;
+$stubs_query = "SELECT * FROM `$database_sql`.`paystubs` ORDER BY `period` ASC LIMIT 1;";
 $stubs_result = mysqli_query($sql, $stubs_query);
 $stubs_total = mysqli_num_rows($stubs_result);
 $stubs_row = mysqli_fetch_assoc($stubs_result);
+
+if($stubs_total<1){
+	echo "0.00"; exit;
+}
+
 $FirstMonth = $stubs_row['period'];
-$stubs_query = "SELECT * FROM `storj_dashboard`.`paystubs` ORDER BY `period` DESC LIMIT 1;";
+$stubs_query = "SELECT * FROM `$database_sql`.`paystubs` ORDER BY `period` DESC LIMIT 1;";
 $stubs_result = mysqli_query($sql, $stubs_query);
 $stubs_row = mysqli_fetch_assoc($stubs_result);
 $LastMonth = $stubs_row['period'];
+
+
 
 $count = 0;
 $Total_Paid_Val = 0;
@@ -32,7 +39,7 @@ $count = $count+1;
 //echo "<br>";
 //echo $FirstMonth;
 
-$stubs_query = "SELECT * FROM `storj_dashboard`.`paystubs` WHERE `period` = '$nextMonth';";
+$stubs_query = "SELECT * FROM `$database_sql`.`paystubs` WHERE `period` = '$nextMonth';";
 $stubs_result = mysqli_query($sql, $stubs_query);
 $stubs_total = mysqli_num_rows($stubs_result);
 $stubs_row = mysqli_fetch_assoc($stubs_result);

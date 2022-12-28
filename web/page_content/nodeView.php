@@ -1,6 +1,6 @@
 <?php 
 $id = $_GET['id'];
-$nodes_query = "SELECT * FROM storj_dashboard.nodes where node_id = '$id' order by ip asc;";
+$nodes_query = "SELECT * FROM $database_sql.nodes where node_id = '$id' order by ip asc;";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);

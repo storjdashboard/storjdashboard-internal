@@ -7,7 +7,7 @@ if(isset($_POST['docker_name'])){
 	$server_ip = $_POST['server_ip'];
 	$server_port = $_POST['server_port'];
 	
-$docker_query = "INSERT INTO `storj_dashboard`.`docker` (`docker_name`, `server_ip`, `port`) VALUES ('$name', '$server_ip', '$server_port');";
+$docker_query = "INSERT INTO `$database_sql`.`docker` (`docker_name`, `server_ip`, `port`) VALUES ('$name', '$server_ip', '$server_port');";
 $docker_result = mysqli_query($sql, $docker_query);
 ?>
 <h1>Added Docker Agent</h1>

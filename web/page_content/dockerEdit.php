@@ -1,6 +1,6 @@
 <?php 
 $id = $_GET['id'];
-$nodes_query = "SELECT * FROM storj_dashboard.docker where id = '$id'";
+$nodes_query = "SELECT * FROM $database_sql.docker where id = '$id'";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);
@@ -22,7 +22,7 @@ if(isset($_POST['submit'])){
 	$server_ip = $_POST['node_ip'];
 	$server_port = $_POST['node_port'];
 	
-$docker_query = "UPDATE `storj_dashboard`.`docker` SET `port`='$server_port', `server_ip`='$server_ip' WHERE  `id`='$node_id';";
+$docker_query = "UPDATE `$database_sql`.`docker` SET `port`='$server_port', `server_ip`='$server_ip' WHERE  `id`='$node_id';";
 $docker_result = mysqli_query($sql, $docker_query);
 	?>
 <h1>Updated Docker Agent</h1>

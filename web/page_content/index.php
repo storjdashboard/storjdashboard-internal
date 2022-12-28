@@ -1,5 +1,5 @@
 <?php 
-$nodes_query = "SELECT * FROM storj_dashboard.nodes order by ip asc;";
+$nodes_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);
@@ -196,11 +196,15 @@ $<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">NODES:</div>
                                             <a class="dropdown-item" href="./?page=nodeAdd">Add Node</a>
+											<a class="dropdown-item" href="./include_content/scripts/nodes/paystubs.php?redirect">Update Total Paid</a>
                                         </div>
                                     </div>                                    
                                 </div>
                                 <div class="card-body pt-0">
                                 <div class="table-responsive pt-0">
+<?php if($nodes_total>0){ // more than 1 node ?>	
+
+									
 <table class="table table-hover display" id="NodesTable">
   <thead>
     <tr>
@@ -356,9 +360,12 @@ $arr_counter = $arr_counter+1;
 </table>         
 
 <?php 
-
+}else{
 ?>
-
+					<div class="card-body pt-3">
+						<a href="./?page=nodeAdd">Add a Node</a>
+					</div>
+<?php } ?>									
 <script type='text/javascript'>
     $(function(){  
         $('#nodes_online_count').html('<?php echo $onlineCounter; ?>/<?php echo $nodes_total ;?>');
@@ -382,7 +389,7 @@ $arr_counter = $arr_counter+1;
                     </div>
                     
 					<!--- ROW -->
-
+<?php if($nodes_total>0){ // more than 1 node ?>	
 <div class="row">
 <?php if($config_row['show_live_bw']){ ?>
 <div class="col-xl-4 col-lg-12">
@@ -450,4 +457,4 @@ do{ ?>
                     
 
                     <!-- Content Row --></div>
-                    
+<?php } ?>

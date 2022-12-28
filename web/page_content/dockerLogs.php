@@ -1,6 +1,6 @@
 <?php 
 $docker_id = $_GET['Did'];
-$docker_query = "SELECT * FROM storj_dashboard.docker WHERE `id` = '$docker_id' order by `docker_name` asc;";
+$docker_query = "SELECT * FROM $database_sql.docker WHERE `id` = '$docker_id' order by `docker_name` asc;";
 $docker_result = mysqli_query($sql, $docker_query);
 $docker_total = mysqli_num_rows($docker_result);
 $docker_row = mysqli_fetch_assoc($docker_result);

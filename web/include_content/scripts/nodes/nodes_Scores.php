@@ -4,13 +4,17 @@
 <?php require_once("../../restrict.php"); ?>
 <?php }
 if(isset($single_node_id)){
-$nodes_scores_query = "SELECT * FROM storj_dashboard.nodes where `node_id` = '$single_node_id';";
+$nodes_scores_query = "SELECT * FROM $database_sql.nodes where `node_id` = '$single_node_id';";
 	}else{
-$nodes_scores_query = "SELECT * FROM storj_dashboard.nodes order by ip asc;";
+$nodes_scores_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
 	}
 $nodes_scores_result = mysqli_query($sql, $nodes_scores_query);
 $nodes_scores_total = mysqli_num_rows($nodes_scores_result);
 $nodes_scores_row = mysqli_fetch_assoc($nodes_scores_result);
+
+if($nodes_scores_total<1){
+	echo "N/A"; exit;
+}
 ?>
 
   <?php

@@ -4,7 +4,7 @@ $set_restrict=0;
 $set_show_server_info=0;
 if(isset($_POST['update'])){
 	// data has been posted 
-//UPDATE `storj_dashboard`.`config` SET `version` = '1.0.0.2' WHERE (`id` = '0');
+//UPDATE `$database_sql`.`config` SET `version` = '1.0.0.2' WHERE (`id` = '0');
 
 		if(isset($_POST['restricted'])){if(is_null($_POST['restricted']) || $_POST['restricted'] ==''){ $set_restrict =0; }else{ $set_restrict = $_POST['restricted'];}}
 		if(isset($_POST['live_data'])){if(is_null($_POST['live_data']) || $_POST['live_data'] ==''){ $set_show_live_bw =0; }else{ $set_show_live_bw = $_POST['live_data'];}}
@@ -12,11 +12,11 @@ if(isset($_POST['update'])){
 	
 	if($set_show_live_bw==''){$set_show_live_bw=0;}
 	if($set_restrict==''){$set_restrict=0;}
-	$features_update_query = "UPDATE `storj_dashboard`.`config` SET `show_live_bw` = '$set_show_live_bw', `restrict` = '$set_restrict', `show_server_info` = '$set_show_server_info' WHERE (`id` = '0');";
+	$features_update_query = "UPDATE `$database_sql`.`config` SET `show_live_bw` = '$set_show_live_bw', `restrict` = '$set_restrict', `show_server_info` = '$set_show_server_info' WHERE (`id` = '0');";
 		$features_update_result = mysqli_query($sql, $features_update_query);
 	$updated = 1;
  //read site config // 
-$config_query = "SELECT * FROM storj_dashboard.config where id = 0;";
+$config_query = "SELECT * FROM $database_sql.config where id = 0;";
 $config_result = mysqli_query($sql, $config_query);
 $config_total = mysqli_num_rows($config_result);
 $config_row = mysqli_fetch_assoc($config_result);	

@@ -3,16 +3,20 @@
 <?php require_once("../../restrict.php"); ?>
 <?php 
 
-$nodes_query = "SELECT * FROM storj_dashboard.nodes order by ip asc;";
+$nodes_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);
 
 if($nodes_total>0){
 			//TRUNCATE `paystubs`;
-$truncate_paystubs_query = "TRUNCATE `storj_dashboard`.`paystubs`;";
+$truncate_paystubs_query = "TRUNCATE `$database_sql`.`paystubs`;";
 $truncate_paystubs_result = mysqli_query($sql, $truncate_paystubs_query);
 
+}else{
+$truncate_paystubs_query = "TRUNCATE `$database_sql`.`paystubs`;";
+$truncate_paystubs_result = mysqli_query($sql, $truncate_paystubs_query);	
+	echo "no data"; header("location: ../../../"); exit;
 }
 ?>
 
@@ -66,9 +70,9 @@ $arr = json_decode($jsonobj, true);
 		
 		// insert sql
 		
-		//INSERT INTO `storj_dashboard`.`paystubs` (`satelliteId`, `period`, `created`, `held`, `owed`, `disposed`, `paid`, `distributed`) VALUES ('$sat', '$month', '$created', '$held', '$owed', '$disposed', '$paid', '$dist');
+		//INSERT INTO `$database_sql`.`paystubs` (`satelliteId`, `period`, `created`, `held`, `owed`, `disposed`, `paid`, `distributed`) VALUES ('$sat', '$month', '$created', '$held', '$owed', '$disposed', '$paid', '$dist');
 		
-$insert_query = "INSERT INTO `storj_dashboard`.`paystubs` (`satelliteId`, `period`, `created`, `held`, `owed`, `disposed`, `paid`, `distributed`) VALUES ('$sat', '$month', '$created', '$held', '$owed', '$disposed', '$paid', '$dist');";
+$insert_query = "INSERT INTO `$database_sql`.`paystubs` (`satelliteId`, `period`, `created`, `held`, `owed`, `disposed`, `paid`, `distributed`) VALUES ('$sat', '$month', '$created', '$held', '$owed', '$disposed', '$paid', '$dist');";
 $insert_result = mysqli_query($sql, $insert_query);
 	  ?>	  
 
@@ -82,3 +86,8 @@ $insert_result = mysqli_query($sql, $insert_query);
   </tbody>
 </table>
 <?php } while ($nodes_row = mysqli_fetch_assoc($nodes_result)); ?>
+<?php if(isset($_GET['redirect'])){
+	?>
+<script>window.location.replace("../../../");</script>
+<?php
+}

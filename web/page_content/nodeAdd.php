@@ -6,7 +6,7 @@ if(isset($_POST['node_ip']) && isset($_POST['node_port'])){
 	$server_ip = $_POST['node_ip'];
 	$server_port = $_POST['node_port'];
 	
-$docker_query = "INSERT INTO `storj_dashboard`.`nodes` (`ip`, `port`) VALUES ('$server_ip', '$server_port');";
+$docker_query = "INSERT INTO `$database_sql`.`nodes` (`ip`, `port`) VALUES ('$server_ip', '$server_port');";
 $docker_result = mysqli_query($sql, $docker_query);
 	?>
 <h1>Added Node</h1>

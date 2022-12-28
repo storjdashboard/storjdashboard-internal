@@ -3,7 +3,7 @@
 <?php require_once("../../../include_content/restrict.php"); ?>
 <?php 
 
-$nodes_query = "SELECT * FROM storj_dashboard.nodes order by ip asc;";
+$nodes_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);

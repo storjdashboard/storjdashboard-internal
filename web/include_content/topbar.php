@@ -6,7 +6,15 @@
                     </button>
 
                     <!-- Topbar Search -->
-					<span id="version"><small>v<?php echo $config_row['version']; ?></small></span>
+<?php //// VERSION CHECK 
+$show_update = 0;
+$file_get_github = @file_get_contents("https://raw.githubusercontent.com/storjdashboard/storjdashboard-internal/main/latest_version"); 
+$file_get_github = trim($file_get_github);
+if($file_get_github!==$config_row['version']) { $show_update =1;}
+?>	
+					<span id="version"><small>v<?php echo $config_row['version']; ?>
+						<?php if($show_update==1){ ?> | <a href="./?page=settingsUpdates">Update Available</a></small><?php } ?>
+						</small></span>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
