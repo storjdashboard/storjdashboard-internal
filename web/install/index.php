@@ -44,7 +44,7 @@
                                 <div class="btn-next-con"> 
 <?php if($fail_count==0){?>
 									<a class="btn-last" href="../?page=install&complete=1">Complete</a>
-<?php }else{ ?><br><br><h3>Errors have been found - Please fix before reloading this page.</h3><?php } ?>
+<?php }else{ ?><br><br><h4>Errors have been found<br>Please fix before reloading this page.</h4><?php } ?>
                                 </div>
                             </div>
                         </div>

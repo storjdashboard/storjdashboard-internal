@@ -40,6 +40,7 @@ if(_iscurl()){
 }
 
 // check if folders are writable
+chmod("../install", 0777); 
 if(is_writable("../install")){
 	echo "[PASS] $pass Writable > Install Folder".$newline;
 	$pass_count=$pass_count+1;
@@ -47,6 +48,7 @@ if(is_writable("../install")){
 	echo "[FAIL] $fail Install Folder Not Writable".$newline;
 	$fail_count=$fail_count+1;
 }
+chmod("../include_content/scripts/update", 0777);
 if(is_writable("../include_content/scripts/update")){
 	echo "[PASS] $pass Writable > Update Folder".$newline;
 	$pass_count=$pass_count+1;
@@ -54,6 +56,7 @@ if(is_writable("../include_content/scripts/update")){
 	echo "[FAIL] $fail Update Folder Not Writable".$newline;
 	$fail_count=$fail_count+1;
 }
+chmod("../include_content/scripts/update/downloads", 0777);
 if(is_writable("../include_content/scripts/update/downloads")){
 	echo "[PASS] $pass Writable > Downloads Folder ".$newline;
 	$pass_count=$pass_count+1;
@@ -61,6 +64,7 @@ if(is_writable("../include_content/scripts/update/downloads")){
 	echo "[FAIL] $fail Downloads Folder Not Writable".$newline;
 	$fail_count=$fail_count+1;
 }
+chmod("../Connections", 0777);
 if(is_writable("../Connections")){
 	echo "[PASS] $pass Writable > Connections Folder ".$newline;
 	$pass_count=$pass_count+1;
@@ -68,6 +72,15 @@ if(is_writable("../Connections")){
 	echo "[FAIL] $fail Connections Folder Not Writable".$newline;
 	$fail_count=$fail_count+1;
 }
+chmod("../Connections/sql.php", 0777);
+if(is_writable("../Connections/sql.php")){
+	echo "[PASS] $pass Writable > Connections SQL File ".$newline;
+	$pass_count=$pass_count+1;
+}else{
+	echo "[FAIL] $fail Connections SQL File Not Writable".$newline;
+	$fail_count=$fail_count+1;
+}
+chmod("../cfg.php", 0777);
 if(is_writable("../cfg.php")){
 	echo "[PASS] $pass Writable > Config File ".$newline;
 	$pass_count=$pass_count+1;
@@ -101,9 +114,8 @@ if(file_exists("../Connections/sql.php")){
 	if(!is_null($database_sql)){ // database has a value
 			echo "[TEST] $test SQL Database Check/Test (<em>$database_sql</em>)".$newline;
 		
-			$list_tables = "SHOW TABLES FROM `$database_sql`";
 		try {
-			
+			$list_tables = "SHOW TABLES FROM `$database_sql`";
 			$result1 = mysqli_query($sql,$list_tables);
 			$table_count =0;
 			while ($row = mysqli_fetch_row($result1)) {
@@ -113,19 +125,19 @@ if(file_exists("../Connections/sql.php")){
 			
 			}
 		// check 5 tables
-		if(count($this_table)==5){
+		if(isset($this_table) && count($this_table)==5){
 			echo "[PASS] $pass SQL Database Check/Test (<em>$database_sql</em>)".$newline;
 			$pass_count=$pass_count+1;
 		}else{
-			echo "[FAIL] $fail SQL Tables Do Not Match Expected".$newline;
+			echo "[FAIL] $fail SQL Tables Do Not Match Expected > <a href='db_setup.php'>Create DB</a>".$newline;
 			$fail_count=$fail_count+1;
 		}
 ////////////////////				
 			} catch (mysqli_sql_exception $e) { 
 			$sql_error = $e->getMessage();
 			echo "[FAIL] $fail DB Error, could not list tables".$newline;
-			$fail_count=$fail_count+1;
     		echo "[FAIL] $fail MySQL Error: " .$sql_error.$newline;
+			echo "[FAIL] $fail <a href='db_setup.php'>Create DB</a>$newline";
 			$fail_count=$fail_count+1;
    			} 
 	}
@@ -175,7 +187,7 @@ $ConfigExists=0;
 				try{
 				$new_ver = trim(@file_get_contents("../version"));
 			
-					$versionUpdate_query = "UPDATE `storj_dashboard`.`config` SET `version`='$new_ver' WHERE  `id`=0;";
+					$versionUpdate_query = "UPDATE `$database_sql`.`config` SET `version`='$new_ver' WHERE  `id`=0;";
 					$versionUpdate_result = mysqli_query($sql, $versionUpdate_query);
 				echo "[PASS] [UPDATED] $pass Version Updated".$newline;
 				} catch (mysqli_sql_exception $e) { 
