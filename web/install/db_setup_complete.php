@@ -79,7 +79,7 @@ ENGINE=InnoDB
   `user` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `pw` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='adding/removing docker';";
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='adding/removing docker';";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created docker".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -94,7 +94,7 @@ ENGINE=InnoDB
   `pw` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created login".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -108,7 +108,7 @@ ENGINE=InnoDB
   `ip` varchar(45) NOT NULL,
   `port` varchar(45) NOT NULL,
   PRIMARY KEY (`node_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created nodes".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -128,7 +128,7 @@ ENGINE=InnoDB
   `paid` int NOT NULL DEFAULT '0',
   `distributed` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';";
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created paystubs".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -183,7 +183,7 @@ ENGINE=InnoDB
 		
 	//add admin account
 		try{
-		$drop_sql = "INSERT INTO `storj_test`.`login` (`user`, `pw`) VALUES ('$login_user', '$login_pw');";
+		$drop_sql = "INSERT INTO `$database_sql`.`login` (`user`, `pw`) VALUES ('$login_user', '$login_pw');";
 	$drop_sql_result = mysqli_query($sql,$drop_sql);	
 			echo "Admin Account Created".$newline;
 			} catch (mysqli_sql_exception $e) { 
@@ -194,7 +194,7 @@ ENGINE=InnoDB
 	
 	//add config
 			try{
-		$drop_sql = "INSERT INTO `storj_test`.`config` (`id`, `show_live_bw`, `show_server_info`, `restrict`) VALUES (0, 0, 0, 1);";
+		$drop_sql = "INSERT INTO `$database_sql`.`config` (`id`, `show_live_bw`, `show_server_info`, `restrict`) VALUES (0, 0, 0, 1);";
 	$drop_sql_result = mysqli_query($sql,$drop_sql);	
 			echo "Config SQL Created".$newline;
 			} catch (mysqli_sql_exception $e) { 
