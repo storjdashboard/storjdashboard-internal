@@ -40,14 +40,6 @@ if(_iscurl()){
 }
 
 // check if folders are writable
-chmod("../install", 0777); 
-if(is_writable("../install")){
-	echo "[PASS] $pass Writable > Install Folder".$newline;
-	$pass_count=$pass_count+1;
-}else{
-	echo "[FAIL] $fail Install Folder Not Writable".$newline;
-	$fail_count=$fail_count+1;
-}
 chmod("../include_content/scripts/update", 0777);
 if(is_writable("../include_content/scripts/update")){
 	echo "[PASS] $pass Writable > Update Folder".$newline;
