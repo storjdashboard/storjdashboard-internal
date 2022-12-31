@@ -1,4 +1,4 @@
-# storj internal dashboard
+# StorjDashboard [ Internal ]
 Internally run storj dashboard for multinode
 
 Please check releases for the latest one.<br><br>
