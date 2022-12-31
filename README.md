@@ -6,5 +6,5 @@ Please check releases for the latest one.<br><br>
 
 <a href="https://github.com/storjdashboard/storjdashboard-internal/releases">Releases</a>
 
-<br><br>
+<br>
 <a href="https://docs.storjdashboard.com/internal">Docs Guide</a>
