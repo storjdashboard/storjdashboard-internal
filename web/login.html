@@ -57,7 +57,7 @@
 const url = new URL(decodeURI(window.location));
 const urlParams = new URLSearchParams(url.search);
 const r = urlParams.getAll('redirect');
-document.write("<input type='hidden' id='redirect' name='redirect' value='" + r +"'>");
+document.write("<input type='hidden' id='redirect' name='redirect' value='"+r+"'>");    
 </script>
                                     </form>
                                 </div>
