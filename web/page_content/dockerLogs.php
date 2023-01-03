@@ -36,8 +36,8 @@ if(isset($_GET['error'])){
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Docker Logs</h1>
-                    <!--    <a href="./" class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm"><i class="fas fa-fw fa-cog"></i> Customise</a>
-					-->
+                        <a href="./?page=dockerView" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="fas fa fa-long-arrow-left"></i> Back</a>
+
                     </div>
 
                     <!-- Content Row -->
