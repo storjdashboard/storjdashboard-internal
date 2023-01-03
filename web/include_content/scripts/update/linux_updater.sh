@@ -2,7 +2,7 @@
 clear
 echo "---------------------------------------"
 echo "---------------------------------------"
-echo "STORJDASHBOARD - INTERNAL - UPDATER "
+echo "  STORJDASHBOARD - INTERNAL - UPDATER  "
 echo "---------------------------------------"
 echo "---------------------------------------"
 echo
@@ -27,7 +27,7 @@ then
 	 cd "$1/include_content/scripts/update/downloads/"
 	 echo "Removing Downloaded File"
 	 rm $2
-	 echo "Deleted Downlaoded File"
+	 echo "Deleted Downloaded File"
 else
     echo "nothing left to do... Exiting.."
 fi
@@ -48,8 +48,10 @@ then
 	chmod -R 777 "$1/include_content/scripts/update/downloads/"
 	echo "Setting www-data as file owner"
 	chown -R www-data "$1"
+	echo "Cleaning Downloads Folder"
+	rm -R "$1/include_content/scripts/update/downloads/"
 else
-    #n
+    	#n
 	echo "nothing left to do... Exiting.."
 fi
 echo "----------------------"
