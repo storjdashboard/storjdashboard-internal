@@ -59,10 +59,7 @@ fclose($myfile);
 	`show_server_info` INT(10) NOT NULL DEFAULT '0',
 	`restrict` INT(10) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`id`) USING BTREE
-)
-COLLATE='utf8mb4_0900_ai_ci'
-ENGINE=InnoDB
-;";
+);";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created config".$newline;
 				} catch (mysqli_sql_exception $e) { 
