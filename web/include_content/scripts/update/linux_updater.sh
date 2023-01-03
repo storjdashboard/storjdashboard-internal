@@ -43,13 +43,15 @@ then
 	echo
 	rsync -avh "$1/include_content/scripts/update/downloads/storjdashboard-internal-$3/web/" "$1/"
 	echo "Setting Permissions"
-	chmod -R 775 "$1/"
+	chmod -R ugo+rw "$1/"
+	echo "Cleaning Downloads Folder"
+	rm -R "$1/include_content/scripts/update/downloads/"
+	mkdir "$1/include_content/scripts/update/downloads/"
 	echo "Setting Write Folder"
 	chmod -R 777 "$1/include_content/scripts/update/downloads/"
 	echo "Setting www-data as file owner"
 	chown -R www-data "$1"
-	echo "Cleaning Downloads Folder"
-	rm -R "$1/include_content/scripts/update/downloads/"
+
 else
     	#n
 	echo "nothing left to do... Exiting.."
