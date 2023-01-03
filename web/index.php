@@ -12,7 +12,7 @@ $start = $time;
 <?php if(!isset($_GET['page']) && file_exists("install")){header("location: install");exit;}?>
 <?php if(isset($_GET['page']) && $_GET['page']=='install' && isset($_GET['complete']) && $_GET['complete']==1) {
 	if(@rmdir("install")){header("location ./");}
-	if(file_exists('install')){ echo "<h2>Warning: Unable to remove install directory<br><br>You must remove INSTALL folder manually if there is no FAIL tasks.<br>Otherwise you will need to fix the FAIL tasks manually.</h2>"; } exit; }?>
+	if(file_exists('install')){ echo "<h2>Warning: Unable to remove install directory<br><br>You must remove INSTALL folder manually if there is no FAIL tasks.<br>Otherwise you will need to fix the FAIL tasks manually.</h2>"; }else{ header("location: ./"); } exit; }?>
 <?php require_once("cfg.php"); ?>
 <?php if($config_row['restrict']==1){ require_once($resitrct_file); } ?>
 <?php require_once($sql_conn_file); ?>
