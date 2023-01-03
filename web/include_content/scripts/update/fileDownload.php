@@ -5,8 +5,8 @@
 	$directory = $root_dir."/include_content/scripts/update/downloads/";
 	//https://github.com/storjdashboard/storjdashboard-internal/archive/refs/tags/v1.0.0.1.tar.gz
     //$url = "https://github.com/storjdashboard/storjdashboard-internal/archive/refs/tags/v$new_version.tar.gz"; DEBUG
-$url = "https://github.com/storjdashboard/storjdashboard-internal/archive/refs/tags/v$new_version.tar.gz";
-      echo "attempting: https://github.com/storjdashboard/storjdashboard-internal/archive/refs/tags/v$new_version.tar.gz<br>";
+$url = "https://github.com/storjdashboard/storjdashboard-internal/archive/refs/tags/$new_version.tar.gz";
+      echo "attempting: https://github.com/storjdashboard/storjdashboard-internal/archive/refs/tags/$new_version.tar.gz<br>";
     // Use basename() function to return the base name of file
     $file_name = basename($url);
       
