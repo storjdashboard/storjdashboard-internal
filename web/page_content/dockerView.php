@@ -9,9 +9,8 @@ $docker_row = mysqli_fetch_assoc($docker_result);
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Docker</h1>
-                    <!--    <a href="./" class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm"><i class="fas fa-fw fa-cog"></i> Customise</a>
-					-->
-                    </div>
+                        <!--<a href="./?page=dockerView" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="fas fa fa-long-arrow-left"></i> Back</a>-->
+					</div>
 
                     <!-- Content Row -->
                     
@@ -61,6 +60,7 @@ $ctx = stream_context_create(array('http'=>
 <?php if($docker_total>0){?>
 <?php do { ?>
 <?php // start work // 
+$docker_name = $docker_row['docker_name'];
 $ip =$docker_row['server_ip'];
 $port = $docker_row['port'];
 $id = $docker_row['id'];
@@ -85,8 +85,8 @@ if(is_array($arr)){
     <tr>
       <th nowrap="nowrap" scope="row">
 <?php if($validCheck>0){ $onlineResult = 1; ?>
-<a href="./?page=dockerInfo&id=<?php echo $id; ?>"><?php echo $ip.":".$port; ?></a>
-<?php }else{ echo $ip.":".$port; }?>
+<a href="./?page=dockerInfo&id=<?php echo $id; ?>"><?php echo $docker_name."</a> <small><em>".$ip.":".$port."</em></small>"; ?>
+<?php }else{ echo $docker_name." <small><em>".$ip.":".$port."</em></small>"; }?>
 &nbsp;&nbsp;&nbsp;<a href="./?page=dockerEdit&id=<?php echo $id; ?>"><i class="fas fa-edit"></i></a>
 </th>
       <td nowrap="nowrap">
@@ -125,6 +125,4 @@ Get Started... <a href="./?page=dockerAdd">Add a Docker Agent</a>
                         </div>     
                     </div>
                     </div>
-                    
-					<!--- ROW -->
                     
