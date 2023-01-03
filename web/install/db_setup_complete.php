@@ -54,7 +54,7 @@ fclose($myfile);
 		try{
 	$insert_sql = "CREATE TABLE IF NOT EXISTS `config` (
 	`id` INT(10) NOT NULL,
-	`version` VARCHAR(10) NOT NULL DEFAULT '1' COLLATE 'utf8mb4_0900_ai_ci',
+	`version` VARCHAR(10) NOT NULL DEFAULT '1',
 	`show_live_bw` INT(10) NOT NULL DEFAULT '0',
 	`show_server_info` INT(10) NOT NULL DEFAULT '0',
 	`restrict` INT(10) NOT NULL DEFAULT '0',
@@ -76,10 +76,10 @@ ENGINE=InnoDB
   `docker_name` tinytext NOT NULL,
   `server_ip` tinytext NOT NULL,
   `port` int NOT NULL DEFAULT '4243',
-  `user` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `pw` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `user` tinytext,
+  `pw` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='adding/removing docker';";
+) COMMENT='adding/removing docker';";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created docker".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -94,7 +94,7 @@ ENGINE=InnoDB
   `pw` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+) ;";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created login".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -108,7 +108,7 @@ ENGINE=InnoDB
   `ip` varchar(45) NOT NULL,
   `port` varchar(45) NOT NULL,
   PRIMARY KEY (`node_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
+) ;";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created nodes".$newline;
 				} catch (mysqli_sql_exception $e) { 
@@ -128,7 +128,7 @@ ENGINE=InnoDB
   `paid` int NOT NULL DEFAULT '0',
   `distributed` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';";
+)  COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created paystubs".$newline;
 				} catch (mysqli_sql_exception $e) { 
