@@ -9,8 +9,9 @@ $docker_row = mysqli_fetch_assoc($docker_result);
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Docker</h1>
-                        <!--<a href="./?page=dockerView" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="fas fa fa-long-arrow-left"></i> Back</a>-->
-					</div>
+                       <a href="./?page=dockerAdd" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa fa-plus-circle"></i> New Docker Agent</a>
+			    
+		   </div>
 
                     <!-- Content Row -->
                     
