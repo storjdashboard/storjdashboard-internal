@@ -58,4 +58,4 @@ CREATE TABLE IF NOT EXISTS `paystubs` (
 ) COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';
 
 INSERT INTO `config` (`id`, `show_live_bw`, `show_server_info`, `restrict`) VALUES (0, 0, 0, 1);
-INSERT INTO `login` (`user`, `pw`) VALUES ('admin', 'password');
+INSERT INTO `login` (`user`, `pw`) VALUES ('admin', 'a8b64babd0aca91a59bdbb7761b421d4f2bb38280d3a75ba0f21f2bebc45583d446c598660c94ce680c47d19c30783a7');
