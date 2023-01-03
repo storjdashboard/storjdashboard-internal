@@ -92,7 +92,7 @@ $('#total_pay').load("include_content/scripts/nodes/paystubs_getData.php").delay
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Current Month</div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Current / Expected Month</div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">$
@@ -224,6 +224,8 @@ $payout_total=0;
 $payout_held=0;
 $payout_overall=0;
 $payout_overall_held=0;
+$payout_expected_overall=0;
+$payout_expected=0;
 //
 
 $ctx = stream_context_create(array('http'=>
@@ -277,9 +279,11 @@ $arr = json_decode($jsonobj, true);
 
 $payout_total = $arr['currentMonth']['egressBandwidthPayout']+$arr['currentMonth']['egressRepairAuditPayout']+$arr['currentMonth']['diskSpacePayout']; 		// issue
 $payout_held = $arr['currentMonth']['held']; 																												// issue
-
+$payout_expected = $arr['currentMonthExpectations'];
+	
 $payout_overall_held = $payout_overall_held+$payout_held;
 $payout_overall = $payout_overall+$payout_total;
+$payout_expected_overall = $payout_expected_overall+$payout_expected;
 ///////////////
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/satellites", false, $ctx);
 $arr = json_decode($jsonobj, true);
@@ -374,7 +378,7 @@ $arr_counter = $arr_counter+1;
 
 <script type='text/javascript'>
     $(function(){  
-        $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2);?>');
+        $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2)." / $ ".number_format($payout_expected_overall/100,2);?>');
     });
 </script>
 
