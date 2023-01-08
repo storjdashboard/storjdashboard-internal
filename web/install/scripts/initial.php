@@ -14,7 +14,6 @@ if(file_exists("../version")){
 	$log_version_ = "0.0";
 }
 $log_version = base64_encode($log_version_);
-@file_get_contents("https://storjdashboard.com/api/internal_install?uname=$log_uname&v=$log_version"); // helps with debug // error information
 
 // check php version 8>
 echo "<small><em>".php_uname()."</em></small>";
@@ -201,11 +200,6 @@ $ConfigExists=0;
 	$fail_count=$fail_count+1;
 }
 	
-}	// if isset $this_table
-//////////////////
-
-
-// cfg file exists
-
-
+}
+@file_get_contents("https://storjdashboard.com/api/internal_install?uname=$log_uname&v=$log_version&f=$fail_count&p=$pass_count"); // helps with debug // error information
 ?>
