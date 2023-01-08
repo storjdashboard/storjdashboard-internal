@@ -5,17 +5,32 @@ $time = $time[1] + $time[0];
 $start = $time;
 // COUNTING PAGE TIME
 
-// config
+// function
+function delTree($dir) {
+   $files = array_diff(scandir($dir), array('.','..'));
+    foreach ($files as $file) { @chmod("$dir/$file",0777);  (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");    }
+    return rmdir($dir);
+  }
+// function end
 
-if(!isset($_GET['page']) && file_exists("install")){ header('Location: '.($_SERVER['HTTPS'] ? 'https' : 'http').'://' . $_SERVER['HTTP_HOST'].'/install'); exit; }
+// if install complete 
 if(isset($_GET['page']) && $_GET['page']=='install' && isset($_GET['complete']) && $_GET['complete']==1) {
-	if(@rmdir("install")){header("location ./");}
-	if(file_exists('install')){ echo "<h2>Warning: Unable to remove install directory<br><br>You must remove INSTALL folder manually if there is no FAIL tasks.<br>Otherwise you will need to fix the FAIL tasks manually.</h2>"; }else{ header("location: ./"); } exit; }
+	// remove install directory
+	if(file_exists('install')){ 
+		$install_dir = $_SERVER['DOCUMENT_ROOT'].dirname($_SERVER['PHP_SELF'])."/install";
+		delTree($install_dir);
+		header('Location: '.dirname($_SERVER['PHP_SELF']).'/');
+	}else{ header('Location: '.dirname($_SERVER['PHP_SELF']).'/'); }
+}
+if(isset($_GET['page']) && $_GET['page']=='install'){ header('Location: '.dirname($_SERVER['PHP_SELF']).'/'); exit;}
+// end install complete
+
+if(!isset($_GET['page']) && file_exists("install")){ header('Location: '.dirname($_SERVER['PHP_SELF']).'/install/'); exit; }
+
 require_once("cfg.php"); 
 if($config_row['restrict']==1){ require_once($resitrct_file); } 
 require_once($sql_conn_file);
-if($_SERVER['QUERY_STRING']==''){	header("location: ./?page=dashboard"); 
-				};
+if($_SERVER['QUERY_STRING']==''){	header("location: ./?page=dashboard"); exit; };
 ?>
 
 <!DOCTYPE html>
