@@ -94,7 +94,7 @@ if(file_exists("../Connections/sql.php")){
 		// Check connection
 	if (!$conn) {
 		$sql_connection_exist = 0;
-  		die("[FAIL] $fail SQL Failed To Connect *" . mysqli_connect_error()).$newline;
+  		echo "[FAIL] $fail SQL Failed To Connect *" . mysqli_connect_error().$newline." <a href='db_setup.php'>Create DB</a> $newline";
 		$fail_count=$fail_count+1;
 	}else{
 		$sql_connection_exist = 1;
@@ -102,7 +102,7 @@ if(file_exists("../Connections/sql.php")){
 		$pass_count=$pass_count+1;
 		}
 		// check sql tables exist
-	if(!is_null($database_sql)){ // database has a value
+	if($sql_connection_exist==1){ // database has a value
 			echo "[TEST] $test SQL Database Check/Test (<em>$database_sql</em>)".$newline;
 		
 		try {
@@ -138,7 +138,7 @@ if(file_exists("../Connections/sql.php")){
 	$fail_count=$fail_count+1;
 }
 /////////////////////
-if(isset($this_table)){
+if($sql_connection_exist==1){
 try{
 $LoginAccounts=0;
 $ConfigExists=0;
