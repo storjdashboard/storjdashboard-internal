@@ -47,6 +47,9 @@ if(is_writable("../include_content/scripts/update")){
 	echo "[FAIL] $fail Update Folder Not Writable".$newline;
 	$fail_count=$fail_count+1;
 }
+if(!file_exists("../include_content/scripts/update/downloads")){
+	mkdir("../include_content/scripts/update/downloads", 0777);
+}
 chmod("../include_content/scripts/update/downloads", 0777);
 if(is_writable("../include_content/scripts/update/downloads")){
 	echo "[PASS] $pass Writable > Downloads Folder ".$newline;
