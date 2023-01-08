@@ -42,16 +42,29 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
 								<h4>Database Administration</h4><br>
-<?php $fileExist_db = 0;$hostname_sql = "";$database_sql = "";$username_sql = "";$password_sql = "!";
+<?php $fileExist_db = 0;$hostname_sql = "";$database_sql = "";$username_sql = "";$password_sql = "";
+echo "<h5>";
 if(file_exists("../Connections/sql.php")){
+if($hostname_sql=="" || $database_sql==""  || $username_sql==""  || $password_sql==""){
+		echo "<br><span style='color:#cc7000'><strong>Notice:</strong> SQL file has empty data.</span>"; 
+}else{	
+	
 	include_once("../Connections/sql.php");
 	$fileExist_db = 1;
-	echo "<h5 style='color:red'>*** Database config file already eixsts!<BR>*** CHECK BEFORE OVERWRITING </h5>";
+		echo "<br><span style='color:red'><strong>Warning:</strong> Reading Existing SQL file</span>";
+	if(isset($sql_error)){
+		echo "<br><span style='color:red'><strong>Warning:</strong> $sql_error</span>";
+	}else{
+		echo "<br><span style='color:green'><strong>Notice:</strong> MySQL Connected</span>";
+	}
+
 if(is_writable("../Connections/sql.php")){}else{
-	echo "<h5 style='color:red'>*** ../Connections/sql.php not writable </h5>";
+	echo "<br><span style='color:red'><strong>Warning:</strong> Connections/sql.php not writable</span>";
 }	
 }
-?>
+}
+echo "</h5>";
+?><br>
                                 <div class="input-group">
                                     <label class="label">Database Host:</label>
                                     <input class="input--style-1" type="text" name="db_host" placeholder="example: localhost" required value="<?php echo $hostname_sql; ?>">

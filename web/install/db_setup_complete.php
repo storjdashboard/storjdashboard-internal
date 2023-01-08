@@ -17,13 +17,18 @@ if($post_fail ==0){
 
 $myfile = fopen("../Connections/sql.php", "w") or die("Unable to open file!");
 $txt = "<?php
-ini_set('display_errors', 0);
+ini_set('display_errors', 0); //change value to 1 instead of 0 for debugging
 
 ".'$hostname_sql'." = '".$host."';
 ".'$database_sql'." = '".$db_name."';
-".'$username_sql'." = '".$db_username."';
+".'$username_sql'." = '".$db_username."'; 
 ".'$password_sql'." = '".$db_pw."';
-".'$sql'." = mysqli_connect(".'$hostname_sql'.", ".'$username_sql'.", ".'$password_sql'.", ".'$database_sql'."); 
+".'$sql'." = '';
+
+if(".'$hostname_sql'."=='' || ".'$database_sql'."==''  || ".'$username_sql'."==''  || ".'$password_sql'."==''){
+	echo '<br>SQL File is not complete. (/Connections/sql.php)<br>'; }else{
+try{ ".'$sql'." = mysqli_connect(".'$hostname_sql'.", ".'$username_sql'.", ".'$password_sql'.", ".'$database_sql'.");  } catch (mysqli_sql_exception ".'$e'.") { ".'$sql_error'." = ".'$e->getMessage(); }'." 
+}
 
 if (!isset(".'$_SESSION'.")) {
   session_start();
@@ -37,6 +42,7 @@ fclose($myfile);
 	//// SQL WORK
 	/////////////
 	include("../Connections/sql.php");
+	if(isset($sql_error)){ header('Location: '.dirname($_SERVER['PHP_SELF']).''); exit; }
 	ini_set('display_errors', 1);
 	////////////////////////////
 	
@@ -52,7 +58,7 @@ fclose($myfile);
 	
 	//insert db sql
 		try{
-	$insert_sql = "CREATE TABLE IF NOT EXISTS `config` (
+	$insert_sql = "CREATE TABLE IF NOT EXISTS `config` ( 
 	`id` INT(10) NOT NULL,
 	`version` VARCHAR(10) NOT NULL DEFAULT '1',
 	`show_live_bw` INT(10) NOT NULL DEFAULT '0',
