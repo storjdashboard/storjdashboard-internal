@@ -53,7 +53,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Options:</h6>
                         <a class="collapse-item <?php if($QueryString=='nodeAdd'){ echo "active"; } ?>" href="./?page=nodeAdd">Add </a>
-
+						<a class="collapse-item <?php if($QueryString=='nodePayments'){ echo "active"; } ?>" href="./?page=nodePayments">Payments </a>
                     </div>
                 </div>
             </li>
