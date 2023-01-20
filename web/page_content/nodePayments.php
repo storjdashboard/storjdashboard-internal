@@ -44,7 +44,7 @@ function formatSize($bytes,$decimals=2){
                               </div>
                                 <div class="card-body py-3">
 
-									<table width="200" border="0" cellspacing="0" cellpadding="8">
+									<table width="100%" border="0" cellspacing="0" cellpadding="8">
   <tbody>
     <tr>
       <th scope="col">Month</th>
