@@ -92,7 +92,7 @@ $monthly_distro = 0;
 	    <td>&nbsp;</td>
 	    <td>&nbsp;</td>
 	    <td>&nbsp;</td>
-	    <td><strong><?PHP echo $cur.number_format($total_distro/1000000,2); ?></strong></td>
+	    <td class="h5"><strong><?PHP echo $cur.number_format($total_distro/1000000,2); ?></strong></td>
 	    </tr>    
 	  <tr>
       <td colspan="5">&nbsp;</td>
