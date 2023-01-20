@@ -87,7 +87,11 @@ $insert_result = mysqli_query($sql, $insert_query);
 </table>
 <?php } while ($nodes_row = mysqli_fetch_assoc($nodes_result)); ?>
 <?php if(isset($_GET['redirect'])){
-	?>
+if($_GET['redirect']=='nodePayments'){
+?>
+<script>window.location.replace("../../../?page=nodePayments");</script>
+<?php 
+}else{ ?>
 <script>window.location.replace("../../../");</script>
-<?php
-}
+<?php } 
+}?>
