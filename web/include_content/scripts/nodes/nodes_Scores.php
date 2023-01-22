@@ -69,10 +69,14 @@ $audit_susp_total_percent = $audit_susp_total_percent+$audit_susp_total/6*100;
 
 
 <?php // online // ?>
-<?php echo number_format($audit_online_total_percent/$nodes_scores_total,2); ?>% /
+<?php 
+$result = number_format($audit_online_total_percent/$nodes_scores_total,2); 
+if($result == "100.00"){ echo number_format($result,0); }else{ echo $result; } 
+?>% /
 <?php // audit // ?>
-<?php echo number_format($audit_audit_total_percent/$nodes_scores_total,2); ?>% /
+<?php $result = number_format($audit_audit_total_percent/$nodes_scores_total,2); 
+if($result == "100.00"){ echo number_format($result,0); }else{ echo $result; } ?>% /
 <?php // suspension // ?>
-<?php echo number_format($audit_susp_total_percent/$nodes_scores_total,2); ?>%
-
+<?php $result = number_format($audit_susp_total_percent/$nodes_scores_total,2); 
+if($result == "100.00"){ echo number_format($result,0); }else{ echo $result; } ?>%
 
