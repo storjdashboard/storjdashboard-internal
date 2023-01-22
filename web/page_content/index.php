@@ -431,16 +431,47 @@ $arr_counter = $arr_counter+1;
       <th nowrap="nowrap" scope="col">Date</th>
       <th nowrap="nowrap" scope="col">Ingress</th>
       <th nowrap="nowrap" scope="col">Egress</th>
+      <th nowrap="nowrap" scope="col">Avg. Bandwidth</th>
       </tr>
   </thead>
   <tbody>
 <?php 
 $count = count($summarytable_date)-1;
-do{ ?>
+do{?>
     <tr>
       <th scope="row"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
       <td><?php echo formatSize($summarytable_ingress_total[$count]); ?></td>
       <td><?php echo formatSize($summarytable_egress_total[$count]); ?></td>
+<?php 
+$MbitSpeed_up = 1;   
+date_default_timezone_set("UTC");
+$totalBW_up = $summarytable_egress_total[$count];
+$totalBW_GB_up = $totalBW_up/1000000000;
+$MbitSpeed_up = $totalBW_GB_up*8000;
+   if(date("jS M",strtotime($summarytable_date[$count])) == date("jS M",time())){
+	   $TimeToday = time() - strtotime("today");
+   }else{
+	   $TimeToday = "86400";
+   }
+$MbitSpeed_up = $MbitSpeed_up/$TimeToday;
+$MbitSpeed_up = number_format($MbitSpeed_up,2)."Mbit/s";
+date_default_timezone_set("Europe/London");
+////////////////////////
+$MbitSpeed_down = 1;   
+date_default_timezone_set("UTC");
+$totalBW_down = $summarytable_ingress_total[$count];
+$totalBW_GB_down = $totalBW_down/1000000000;
+$MbitSpeed_down = $totalBW_GB_down*8000;
+   if(date("jS M",strtotime($summarytable_date[$count])) == date("jS M",time())){
+	   $TimeToday = time() - strtotime("today");
+   }else{
+	   $TimeToday = "86400";
+   }
+$MbitSpeed_down = $MbitSpeed_down/$TimeToday;
+$MbitSpeed_down = number_format($MbitSpeed_down,2)."Mbit/s";
+date_default_timezone_set("Europe/London");      
+?>
+		<td><i class="fa fa-upload" aria-hidden="true"></i> <?php echo $MbitSpeed_up ;?> <i class="fa fa-download" aria-hidden="true"></i> <?php echo $MbitSpeed_down ;?></td>
       </tr>
 <?php $count=$count-1; }while($count>=0); ?>
   </tbody>
