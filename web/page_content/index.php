@@ -431,18 +431,14 @@ $arr_counter = $arr_counter+1;
       <th nowrap="nowrap" scope="col">Date</th>
       <th nowrap="nowrap" scope="col">Ingress</th>
       <th nowrap="nowrap" scope="col">Egress</th>
-      <th nowrap="nowrap" scope="col">Avg. Bandwidth</th>
+      <th nowrap="nowrap" scope="col"> Total Bandwidth</th>
       </tr>
   </thead>
   <tbody>
 <?php 
 $count = count($summarytable_date)-1;
-do{?>
-    <tr>
-      <th scope="row"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
-      <td><?php echo formatSize($summarytable_ingress_total[$count]); ?></td>
-      <td><?php echo formatSize($summarytable_egress_total[$count]); ?></td>
-<?php 
+
+do{
 $MbitSpeed_up = 1;   
 date_default_timezone_set("UTC");
 $totalBW_up = $summarytable_egress_total[$count];
@@ -469,16 +465,29 @@ $MbitSpeed_down = $totalBW_GB_down*8000;
    }
 $MbitSpeed_down = $MbitSpeed_down/$TimeToday;
 $MbitSpeed_down = number_format($MbitSpeed_down,2)."Mbit/s";
-date_default_timezone_set("Europe/London");      
+date_default_timezone_set("Europe/London");    
+
+$up_cs = str_replace("Mbit/s",'',$MbitSpeed_up);
+$down_cs = str_replace("Mbit/s",'',$MbitSpeed_down);
+$total_cs = $up_cs+$down_cs;
+	  ?>
+    <tr>
+      <th valign="middle" scope="row"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
+      <td valign="middle"><?php echo formatSize($summarytable_ingress_total[$count]); ?> </td>
+      <td valign="middle"><?php echo formatSize($summarytable_egress_total[$count]); ?> </td>
+<?php 
+  
 ?>
-		<td><i class="fa fa-upload" aria-hidden="true"></i> <?php echo $MbitSpeed_up ;?> <i class="fa fa-download" aria-hidden="true"></i> <?php echo $MbitSpeed_down ;?></td>
+		<td valign="middle"><?php echo $total_cs."Mbit/s";?><br><small><i class="fa fa-download" aria-hidden="true"></i> <?php echo $MbitSpeed_down ;?></small> <small><i class="fa fa-upload" aria-hidden="true"></i> <?php echo $MbitSpeed_up ;?></small></td>
       </tr>
 <?php $count=$count-1; }while($count>=0); ?>
   </tbody>
 </table>
+<br>
+<small>*Bandwidth is measured on average of the last update time of a node.</small>
 
 
-                              </div>
+                                </div>
                             </div>
                             </div>
                         </div>
