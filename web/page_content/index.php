@@ -472,13 +472,13 @@ $down_cs = str_replace("Mbit/s",'',$MbitSpeed_down);
 $total_cs = $up_cs+$down_cs;
 	  ?>
     <tr>
-      <th valign="middle" scope="row"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
+      <th valign="middle" scope="row" class="text-nowrap"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
       <td valign="middle"><?php echo formatSize($summarytable_ingress_total[$count]); ?> </td>
       <td valign="middle"><?php echo formatSize($summarytable_egress_total[$count]); ?> </td>
 <?php 
   
 ?>
-		<td valign="middle"><?php echo $total_cs."Mbit/s";?><br><small><i class="fa fa-download" aria-hidden="true"></i> <?php echo $MbitSpeed_down ;?></small> <small><i class="fa fa-upload" aria-hidden="true"></i> <?php echo $MbitSpeed_up ;?></small></td>
+		<td valign="middle"><?php echo $total_cs."Mbit/s";?><br><small class="text-nowrap"><i class="fa fa-download" aria-hidden="true"></i> <?php echo $MbitSpeed_down ;?><i class="fa fa-upload" aria-hidden="true"></i> <?php echo $MbitSpeed_up ;?></small></td>
       </tr>
 <?php $count=$count-1; }while($count>=0); ?>
   </tbody>
