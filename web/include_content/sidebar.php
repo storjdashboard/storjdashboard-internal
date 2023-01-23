@@ -112,6 +112,12 @@
                     </div>
                 </div>
             </li>
+	
+	            <li class="nav-item <?php if($QueryString=='donate'){ echo "active"; } ?>">
+                <a class="nav-link" href="./?page=donate">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span>Donate</span></a>
+            </li>
 
             <!-- Nav Item - Charts -->
 
@@ -124,10 +130,13 @@
             </div>
 
             <!-- Sidebar Message -->
+	
             <div class="sidebar-card d-none d-lg-flex">
                 <h2><i class="fa-solid fa-circle-info"></i></h2>
               <p class="text-center mb-2"><strong></strong>Need Help?</p>
                 <a class="btn btn-success btn-sm" href="https://docs.storjdashboard.com/internal" target="_blank">Help Guide</a>
             </div>
+	
+
 
 </ul>
