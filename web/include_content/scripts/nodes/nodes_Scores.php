@@ -12,7 +12,9 @@ $nodes_scores_result = mysqli_query($sql, $nodes_scores_query);
 $nodes_scores_total = mysqli_num_rows($nodes_scores_result);
 $nodes_scores_row = mysqli_fetch_assoc($nodes_scores_result);
 
-if($nodes_scores_total<1){
+$totalNodes = $nodes_scores_total;
+
+if($totalNodes<1){
 	echo "N/A"; exit;
 }
 ?>
@@ -41,6 +43,7 @@ if(is_array($arr)){
 $IsArray = 1;
 }else{
 $IsArray = 0;
+$totalNodes  = $totalNodes-1;
 }
 
 if($IsArray == 1){
@@ -70,13 +73,12 @@ $audit_susp_total_percent = $audit_susp_total_percent+$audit_susp_total/6*100;
 
 <?php // online // ?>
 <?php 
-$result = number_format($audit_online_total_percent/$nodes_scores_total,2); 
+$result = number_format($audit_online_total_percent/$totalNodes,2); 
 if($result == "100.00"){ echo number_format($result,0); }else{ echo $result; } 
 ?>% /
 <?php // audit // ?>
-<?php $result = number_format($audit_audit_total_percent/$nodes_scores_total,2); 
+<?php $result = number_format($audit_audit_total_percent/$totalNodes,2); 
 if($result == "100.00"){ echo number_format($result,0); }else{ echo $result; } ?>% /
 <?php // suspension // ?>
-<?php $result = number_format($audit_susp_total_percent/$nodes_scores_total,2); 
+<?php $result = number_format($audit_susp_total_percent/$totalNodes,2); 
 if($result == "100.00"){ echo number_format($result,0); }else{ echo $result; } ?>%
-
