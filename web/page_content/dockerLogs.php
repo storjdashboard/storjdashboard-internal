@@ -1,4 +1,8 @@
 <?php 
+if(!isset($_GET['Did'])){ ?>
+<script>window.location.replace("./");</script>
+<?php
+}
 $docker_id = $_GET['Did'];
 $docker_query = "SELECT * FROM $database_sql.docker WHERE `id` = '$docker_id' order by `docker_name` asc;";
 $docker_result = mysqli_query($sql, $docker_query);
