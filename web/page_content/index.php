@@ -133,8 +133,7 @@ $<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-
 	<?php if($config_row['show_server_info']){ ?>				
 	<div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-6 col-md-6 mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -153,8 +152,7 @@ $<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-6 col-md-6 mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -166,6 +164,42 @@ $<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-
                                         </div>
                                         <div class="col-auto">
                                           <i class="fa-solid fa-memory fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-dark shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Combined Bandwidth</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<span id="bw_all"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i></span>
+					</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fa-solid fa-arrow-right-arrow-left fa-rotate-90 fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Combined Disk</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<span id="disk_all"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 1em;'></i></span>
+											</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fa-solid fa-hard-drive fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -226,11 +260,18 @@ $payout_overall=0;
 $payout_overall_held=0;
 $payout_expected_overall=0;
 $payout_expected=0;
+	
+$capacity = 0;
+$capacity_all = 0;
+$storage = 0;
+$storage_all = 0;
+$bandwidth = 0;
+$bandwidth_all = 0;
 //
 
 $ctx = stream_context_create(array('http'=>
     array(
-        'timeout' => 10,  //1200 Seconds is 20 Minutes	
+        'timeout' => 20,  //1200 Seconds is 20 Minutes	
     )
 ));
 ?>
@@ -256,6 +297,10 @@ if($validCheck>0){
 $capacity = formatSize($arr['diskSpace']['available']);
 $storage = formatSize($arr['diskSpace']['used']+$arr['diskSpace']['trash']);
 $bandwidth = formatSize($arr['bandwidth']['used']);
+$capacity_all = $capacity_all+$arr['diskSpace']['available'];
+$storage_all = $storage_all+$arr['diskSpace']['used']+$arr['diskSpace']['trash'];
+$bandwidth_all = $bandwidth_all+$arr['bandwidth']['used'];	
+	
 $node_ver = $arr['version'];
 $node_quic = $arr['quicStatus'];
 
@@ -375,13 +420,21 @@ $arr_counter = $arr_counter+1;
         $('#nodes_online_count').html('<?php echo $onlineCounter; ?>/<?php echo $nodes_total ;?>');
     });
 </script>
-
 <script type='text/javascript'>
     $(function(){  
         $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2)." / $ ".number_format($payout_expected_overall/100,2);?>');
     });
 </script>
-
+<script type='text/javascript'>
+    $(function(){  
+        $('#bw_all').html('<?php echo formatSize($bandwidth_all); ?>');
+    });
+</script>
+<script type='text/javascript'>
+    $(function(){  
+        $('#disk_all').html('<?php echo formatSize($storage_all) . " / " . formatSize($capacity_all); ?>');
+    });
+</script>
 
 
                        
@@ -392,6 +445,7 @@ $arr_counter = $arr_counter+1;
                     </div>
                     </div>
                     
+		
 					<!--- ROW -->
 <?php if($nodes_total>0){ // more than 1 node ?>	
 <div class="row">
