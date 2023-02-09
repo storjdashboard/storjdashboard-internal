@@ -1,4 +1,8 @@
 <?php 
+if(!isset($_GET['id'])){ ?>
+<script>window.location.replace("./");</script>
+<?php
+}
 $docker_id = $_GET['id'];
 $docker_query = "SELECT * FROM $database_sql.docker WHERE `id` = '$docker_id' order by `docker_name` asc;";
 $docker_result = mysqli_query($sql, $docker_query);
@@ -72,7 +76,7 @@ do{
 	$cur_id = $arr[$cur_container]['Id'];
 ?>		  
     <tr>
-      <th nowrap="nowrap" scope="row"><?php echo $arr[$cur_container]['Image']; ?></th>
+      <th nowrap="nowrap" scope="row"><?php echo ltrim($arr[$cur_container]['Names'][0],"/"); ?></th>
       <td nowrap="nowrap"><?php echo $arr[$cur_container]['State']; ?></td>
       <td nowrap="nowrap"><?php echo $arr[$cur_container]['Status']; ?></td>
       <td nowrap="nowrap"><?php echo date("D M j G:i:s",$arr[$cur_container]['Created']); ?></td>
