@@ -101,7 +101,13 @@ $total_log_lines = count($split_log_data)-1;
   <tbody>
 <?php 	  
 if($total_log_lines>0){	  
-	  
+	$upl_started = 0;
+	$upl_cancel = 0;
+	$upl_complete = 0;
+	
+	$dl_started = 0;
+	$dl_cancel = 0;
+	$dl_complete = 0;
 do{ 
 	// reset variables
 	$TL_info= "";
@@ -114,8 +120,8 @@ do{
 if(!is_null($split_log_line_data_tabs[0]) && count($split_log_line_data_tabs)>1){	
 	$TL_time = date("D M j G:i:s",strtotime(preg_replace('/[\x00-\x1F\x7F]/', '', $split_log_line_data_tabs[0])));
 	$TL_info = $split_log_line_data_tabs[1];
-	$TL_info2 = $split_log_line_data_tabs[2];
-	$TL_info3 = $split_log_line_data_tabs[3];
+	$TL_info2 = trim($split_log_line_data_tabs[2]);
+	$TL_info3 = trim($split_log_line_data_tabs[3]);
 	if(isset($split_log_line_data_tabs[4])){
 	$TL_json = json_decode($split_log_line_data_tabs[4],true);
 	}
@@ -166,17 +172,45 @@ if(!is_null($split_log_line_data_tabs[0]) && count($split_log_line_data_tabs)>1)
       </tr>
 	  <?php	  
 	}
+		// status round ups //
+		if($TL_info3=="upload started"){
+			$upl_started = $upl_started+1;
+		}
+		if($TL_info3=="upload canceled"){
+			$upl_cancel = $upl_cancel+1;
+		}
+		if($TL_info3=="uploaded"){
+			$upl_complete = $upl_complete+1;
+		}
+		if($TL_info3=="download started"){
+			$dl_started = $dl_started+1;
+		}
+		if($TL_info3=="download canceled"){
+			$dl_cancel = $dl_cancel+1;
+		}
+		if($TL_info3=="downloaded"){
+			$dl_complete = $dl_complete+1;
+		}
+		//////
+	
 		$log_line_count = $log_line_count+1;
-	}while($log_line_count<$total_log_lines);	
+	}while($log_line_count<$total_log_lines);	 
 	
 	} // if more than 0 found	
 ?>
     </tbody>
 </table>
-							
+									
+<br>
+Upload Started: <?php echo $upl_started; ?><br>
+Upload Canceled: <?php echo $upl_cancel; ?> | <?php echo number_format($upl_cancel/$upl_started*100,2); ?>  <br>
+Upload Complete: <?php echo $upl_complete; ?> | <?php echo number_format($upl_complete/$upl_started*100,2); ?>  <br>
+<br>
+Download Started: <?php echo $dl_started; ?><br>
+Download Canceled: <?php echo $dl_cancel; ?> | <?php echo number_format($dl_cancel/$dl_started*100,2); ?>  <br>
+Download Complete: <?php echo $dl_complete; ?> | <?php echo number_format($dl_complete/$dl_started*100,2); ?>  <br>
 
-                       
-                                                                    
+
                                 </div>
                             </div>
                         </div>     
