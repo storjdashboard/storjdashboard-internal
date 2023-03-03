@@ -210,15 +210,15 @@ if(!is_null($split_log_line_data_tabs[0]) && count($split_log_line_data_tabs)>1)
 </table>
 									
 <br>
-Upload Started: <?php echo $upl_started; ?><br>
-Upload Canceled: <?php echo $upl_cancel; ?> | <?php echo number_format($upl_cancel/$upl_started*100,2); ?>  <br>
-Upload Complete: <?php echo $upl_complete; ?> | <?php echo number_format($upl_complete/$upl_started*100,2); ?>  <br>
+<strong>Upload Started:</strong> <?php echo $upl_started; ?><br>
+<strong>Upload Canceled:</strong> <?php echo $upl_cancel; ?> | <?php echo number_format($upl_cancel/$upl_started*100,2); ?>%  <br>
+<strong>Upload Complete:</strong> <?php echo $upl_complete; ?> | <?php echo number_format($upl_complete/$upl_started*100,2); ?>%  <br>
 <br>
-Download Started: <?php echo $dl_started; ?><br>
-Download Canceled: <?php echo $dl_cancel; ?> | <?php echo number_format($dl_cancel/$dl_started*100,2); ?>  <br>
-Download Complete: <?php echo $dl_complete; ?> | <?php echo number_format($dl_complete/$dl_started*100,2); ?>  <br>
+<strong>Download Started:</strong> <?php echo $dl_started; ?><br>
+<strong>Download Canceled:</strong> <?php echo $dl_cancel; ?> | <?php echo number_format($dl_cancel/$dl_started*100,2); ?>%  <br>
+<strong>Download Complete:</strong> <?php echo $dl_complete; ?> | <?php echo number_format($dl_complete/$dl_started*100,2); ?>%  <br>
 <br>
-Deleted Pieces: <?php echo $del_pieces; ?><br>
+<strong>Deleted Pieces:</strong> <?php echo $del_pieces; ?><br>
 
                                 </div>
                             </div>
