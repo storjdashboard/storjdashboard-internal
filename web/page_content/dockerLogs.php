@@ -113,15 +113,21 @@ if($total_log_lines>0){
 	
 do{ 
 	// reset variables
-	$TL_info= "";
-	$TL_info2= "";
-	$TL_info3= "";
-	$TL_json= "";
+	$TL_info= null;
+	$TL_info2= null;
+	$TL_info3= null;
+	$TL_json= null;
+	$timestamp_ = null;
 	
 	  $split_log_line_data_tabs = preg_split("/\t+/", $split_log_data[$log_line_count]);
 	
 if(!is_null($split_log_line_data_tabs[0]) && count($split_log_line_data_tabs)>1){	
-	$TL_time = date("D M j G:i:s",strtotime(preg_replace('/[\x00-\x1F\x7F]/', '', $split_log_line_data_tabs[0])));
+	
+	$timestamp_pos = stripos($split_log_line_data_tabs[0],date("Y",time()));
+	
+	$timestamp_ = substr($split_log_line_data_tabs[0],$timestamp_pos);
+	
+	$TL_time = date("D M j G:i:s",strtotime(preg_replace('/[\x00-\x1F\x7F]/', '', $timestamp_)));
 	$TL_info = $split_log_line_data_tabs[1];
 	$TL_info2 = trim($split_log_line_data_tabs[2]);
 	$TL_info3 = trim($split_log_line_data_tabs[3]);
