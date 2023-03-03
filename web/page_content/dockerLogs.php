@@ -108,6 +108,9 @@ if($total_log_lines>0){
 	$dl_started = 0;
 	$dl_cancel = 0;
 	$dl_complete = 0;
+	
+	$del_pieces = 0;
+	
 do{ 
 	// reset variables
 	$TL_info= "";
@@ -191,7 +194,12 @@ if(!is_null($split_log_line_data_tabs[0]) && count($split_log_line_data_tabs)>1)
 		if($TL_info3=="downloaded"){
 			$dl_complete = $dl_complete+1;
 		}
+		if($TL_info3=="delete piece sent to trash"){
+			$del_pieces = $del_pieces+1;
+		}
 		//////
+			
+	
 	
 		$log_line_count = $log_line_count+1;
 	}while($log_line_count<$total_log_lines);	 
@@ -209,7 +217,8 @@ Upload Complete: <?php echo $upl_complete; ?> | <?php echo number_format($upl_co
 Download Started: <?php echo $dl_started; ?><br>
 Download Canceled: <?php echo $dl_cancel; ?> | <?php echo number_format($dl_cancel/$dl_started*100,2); ?>  <br>
 Download Complete: <?php echo $dl_complete; ?> | <?php echo number_format($dl_complete/$dl_started*100,2); ?>  <br>
-
+<br>
+Deleted Pieces: <?php echo $del_pieces; ?><br>
 
                                 </div>
                             </div>
