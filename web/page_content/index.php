@@ -10,7 +10,7 @@ function formatSize($bytes,$decimals=2){
     $factor=floor((strlen($bytes)-1)/3);
     return sprintf("%.{$decimals}f",$bytes/pow(1000,$factor)).@$size[$factor];
 }
-?>
+?> 
 
 <div class="container-fluid">
 
@@ -339,15 +339,17 @@ do{
 $egress = $arr['bandwidthDaily'][$arr_counter]['egress'];
 $ingress = $arr['bandwidthDaily'][$arr_counter]['ingress'];
 $datetime = $arr['bandwidthDaily'][$arr_counter]['intervalStart'];
-
-if(!isset($summarytable_egress_total[$arr_counter])){
-$summarytable_egress_total[$arr_counter] = $egress['repair']+$egress['usage']+$egress['audit'];
-$summarytable_ingress_total[$arr_counter] = $ingress['repair']+$ingress['usage'];
+$summarytable_date[$arr_counter] = $datetime;	
+$summarytable_str_date = strtotime($summarytable_date[$arr_counter]); 
+	
+if(!isset($summarytable_egress_total)){
+$summarytable_egress_total[$summarytable_str_date] = $egress['repair']+$egress['usage']+$egress['audit'];
+$summarytable_ingress_total[$summarytable_str_date] = $ingress['repair']+$ingress['usage'];
 }else{
-$summarytable_egress_total[$arr_counter] = $summarytable_egress_total[$arr_counter]+$egress['repair']+$egress['usage']+$egress['audit'];
-$summarytable_ingress_total[$arr_counter] = $summarytable_ingress_total[$arr_counter]+$ingress['repair']+$ingress['usage'];
+$summarytable_egress_total[$summarytable_str_date] = $summarytable_egress_total[$summarytable_str_date]+$egress['repair']+$egress['usage']+$egress['audit'];
+$summarytable_ingress_total[$summarytable_str_date] = $summarytable_ingress_total[$summarytable_str_date]+$ingress['repair']+$ingress['usage'];
 }
-$summarytable_date[$arr_counter] = $datetime;
+
 
 $total_bwDaily_count=$total_bwDaily_count-1;
 $arr_counter = $arr_counter+1;
@@ -356,7 +358,22 @@ $arr_counter = $arr_counter+1;
 
 } // end online check 
 
+	// summary table keys
+	$summarytable_keys = array_keys($summarytable_egress_total);
+
+	
 // end work
+	
+	
+#	echo "<pre>";
+#	ksort($summarytable_egress_total);
+#	print_r($summarytable_egress_total);
+	
+#	ksort($summarytable_ingress_total);
+#	print_r($summarytable_ingress_total);	
+	
+#$summarytable_ingress_total[array_keys($summarytable_ingress_total)[1]];
+
 ?>   
     <tr>
       <th nowrap="nowrap" scope="row">
@@ -490,15 +507,16 @@ $arr_counter = $arr_counter+1;
   </thead>
   <tbody>
 <?php 
-$count = count($summarytable_date)-1;
+$count = count($summarytable_keys)-1;
 
 do{
+	$ThisKey = array_keys($summarytable_ingress_total)[$count];
 $MbitSpeed_up = 1;   
 date_default_timezone_set("UTC");
-$totalBW_up = $summarytable_egress_total[$count];
+$totalBW_up = $summarytable_egress_total[$ThisKey];
 $totalBW_GB_up = $totalBW_up/1000000000;
 $MbitSpeed_up = $totalBW_GB_up*8000;
-   if(date("jS M",strtotime($summarytable_date[$count])) == date("jS M",time())){
+   if(date("jS M",$ThisKey) == date("jS M",time())){
 	   $TimeToday = time() - strtotime("today");
    }else{
 	   $TimeToday = "86400";
@@ -509,10 +527,10 @@ date_default_timezone_set("Europe/London");
 ////////////////////////
 $MbitSpeed_down = 1;   
 date_default_timezone_set("UTC");
-$totalBW_down = $summarytable_ingress_total[$count];
+$totalBW_down = $summarytable_ingress_total[$ThisKey];
 $totalBW_GB_down = $totalBW_down/1000000000;
 $MbitSpeed_down = $totalBW_GB_down*8000;
-   if(date("jS M",strtotime($summarytable_date[$count])) == date("jS M",time())){
+   if(date("jS M",$ThisKey) == date("jS M",time())){
 	   $TimeToday = time() - strtotime("today");
    }else{
 	   $TimeToday = "86400";
@@ -526,9 +544,9 @@ $down_cs = str_replace("Mbit/s",'',$MbitSpeed_down);
 $total_cs = $up_cs+$down_cs;
 	  ?>
     <tr>
-      <th valign="middle" scope="row" class="text-nowrap"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
-      <td valign="middle"><?php echo formatSize($summarytable_ingress_total[$count]); ?> </td>
-      <td valign="middle"><?php echo formatSize($summarytable_egress_total[$count]); ?> </td>
+      <th valign="middle" scope="row" class="text-nowrap"><?php echo date("jS M",$ThisKey); ?></th>
+      <td valign="middle"><?php echo formatSize($summarytable_ingress_total[$ThisKey]); ?> </td>
+      <td valign="middle"><?php echo formatSize($summarytable_egress_total[$ThisKey]); ?> </td>
 <?php 
   
 ?>
