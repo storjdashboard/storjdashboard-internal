@@ -12,7 +12,7 @@ if($file_get_github>0){
 } 
 ?>
 <div class="container-fluid">
-
+ 
                     <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Settings &gt; Updates</h1>
@@ -52,6 +52,8 @@ if($file_get_github>0){
 							<p><?php if(isset($_GET['upgrade']) && $_GET['upgrade']==1){ ?>
 
 								<?php include_once("$root_dir/include_content/scripts/update/fileDownload.php"); ?>
+								
+								<p><a href="./" class="btn btn-warning text-dark">Click here after install</a></p>
 <?php	} ?>
 							</p>
 <?php
