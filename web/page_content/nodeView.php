@@ -1,4 +1,8 @@
 <?php 
+if(!isset($_GET['id'])){ ?>
+<script>window.location.replace("./");</script>
+<?php
+}
 $id = $_GET['id'];
 $nodes_query = "SELECT * FROM $database_sql.nodes where node_id = '$id' order by ip asc;";
 $nodes_result = mysqli_query($sql, $nodes_query);
@@ -122,6 +126,7 @@ $payout_total=0;
 $payout_held=0;
 $payout_overall=0;
 $payout_overall_held=0;
+$payout_expected_overall=0;
 //
 
 $ctx = stream_context_create(array('http'=>
@@ -165,9 +170,11 @@ $arr = json_decode($jsonobj, true);
 
 $payout_total = $arr['currentMonth']['egressBandwidthPayout']+$arr['currentMonth']['egressRepairAuditPayout']+$arr['currentMonth']['diskSpacePayout'];
 $payout_held = $arr['currentMonth']['held'];
+$payout_expected = $arr['currentMonthExpectations'];
 
 $payout_overall_held = $payout_overall_held+$payout_held;
 $payout_overall = $payout_overall+$payout_total;
+$payout_expected_overall = $payout_expected_overall+$payout_expected;	
 ///////////////
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/satellites", false, $ctx);
 $arr = json_decode($jsonobj, true);
@@ -239,7 +246,7 @@ $arr_counter = $arr_counter+1;
 
 <script type='text/javascript'>
     $(function(){  
-        $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2); ?>');
+        $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2)." / $ ".number_format($payout_expected_overall/100,2);?>');
     });
 </script>
 
@@ -287,29 +294,66 @@ $arr_counter = $arr_counter+1;
                                 <!-- Card Body -->
                                 <div class="card-body pt-0">
                                 <div class="table-responsive pt-0">
-<table class="table table-hover display" id="DailySummaryTable">
-  <thead>
-    <tr>
-      <th nowrap="nowrap" scope="col">Date</th>
-      <th nowrap="nowrap" scope="col">Ingress</th>
-      <th nowrap="nowrap" scope="col">Egress</th>
-      </tr>
-  </thead>
-  <tbody>
+                                  <table class="table table-hover display" id="DailySummaryTable">
+                                    <thead>
+                                      <tr>
+                                        <th nowrap="nowrap" scope="col">Date</th>
+                                        <th nowrap="nowrap" scope="col">Ingress</th>
+                                        <th nowrap="nowrap" scope="col">Egress</th>
+                                        <th nowrap="nowrap" scope="col"> Total Bandwidth</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
 <?php 
 $count = count($summarytable_date)-1;
-do{ ?>
-    <tr>
-      <th scope="row"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
-      <td><?php echo formatSize($summarytable_ingress_total[$count]); ?></td>
-      <td><?php echo formatSize($summarytable_egress_total[$count]); ?></td>
-      </tr>
-<?php $count=$count-1; }while($count>=0); ?>
-  </tbody>
-</table>
 
+do{
+$MbitSpeed_up = 1;   
+date_default_timezone_set("UTC");
+$totalBW_up = $summarytable_egress_total[$count];
+$totalBW_GB_up = $totalBW_up/1000000000;
+$MbitSpeed_up = $totalBW_GB_up*8000;
+   if(date("jS M",strtotime($summarytable_date[$count])) == date("jS M",time())){
+	   $TimeToday = time() - strtotime("today");
+   }else{
+	   $TimeToday = "86400";
+   }
+$MbitSpeed_up = $MbitSpeed_up/$TimeToday;
+$MbitSpeed_up = number_format($MbitSpeed_up,2)."Mbit/s";
+date_default_timezone_set("Europe/London");
+////////////////////////
+$MbitSpeed_down = 1;   
+date_default_timezone_set("UTC");
+$totalBW_down = $summarytable_ingress_total[$count];
+$totalBW_GB_down = $totalBW_down/1000000000;
+$MbitSpeed_down = $totalBW_GB_down*8000;
+   if(date("jS M",strtotime($summarytable_date[$count])) == date("jS M",time())){
+	   $TimeToday = time() - strtotime("today");
+   }else{
+	   $TimeToday = "86400";
+   }
+$MbitSpeed_down = $MbitSpeed_down/$TimeToday;
+$MbitSpeed_down = number_format($MbitSpeed_down,2)."Mbit/s";
+date_default_timezone_set("Europe/London");    
 
-                              </div>
+$up_cs = str_replace("Mbit/s",'',$MbitSpeed_up);
+$down_cs = str_replace("Mbit/s",'',$MbitSpeed_down);
+$total_cs = $up_cs+$down_cs;
+	  ?>
+                                      <tr>
+                                        <th valign="middle" scope="row" class="text-nowrap"><?php echo date("jS M",strtotime($summarytable_date[$count])); ?></th>
+                                        <td valign="middle"><?php echo formatSize($summarytable_ingress_total[$count]); ?></td>
+                                        <td valign="middle"><?php echo formatSize($summarytable_egress_total[$count]); ?></td>
+                                        <?php 
+  
+?>
+                                        <td valign="middle"><?php echo $total_cs."Mbit/s";?><br>
+                                          <small class="text-nowrap"><i class="fa fa-download" aria-hidden="true"></i> <?php echo $MbitSpeed_down ;?><i class="fa fa-upload" aria-hidden="true"></i> <?php echo $MbitSpeed_up ;?></small></td>
+                                      </tr>
+                                      <?php $count=$count-1; }while($count>=0); ?>
+                                    </tbody>
+                                  </table>
+                                </div>
                             </div>
                             </div>
                         </div>
