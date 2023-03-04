@@ -63,7 +63,7 @@ $config_row = mysqli_fetch_assoc($config_result);
 </div>                             
 <div class="col-12 m-2 text-center form-check">
 <input name="live_data" type="checkbox" id="live_data" form="form" value="1" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="sm" <?php if($config_row['show_live_bw']){ echo "checked"; } ?>>
-<label class="form-check-label" for="live_data">Display Network Info </label>										
+<label class="form-check-label" for="live_data">Display Network Info <span class="badge bg-warning text-dark">beta</span></label>										
 </div>
 <div class="col-12  m-2 text-center">
 <input name="restricted" type="checkbox" id="restricted" form="form" value="1" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="sm" <?php if($config_row['restrict']){ echo "checked"; } ?>>
