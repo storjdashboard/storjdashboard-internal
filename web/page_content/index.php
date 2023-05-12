@@ -236,7 +236,7 @@ $<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-
                                 </div>
                                 <div class="card-body pt-0">
                                 <div class="table-responsive pt-0">
-<?php if($nodes_total>0){ // more than 1 node ?>	
+<?php 	if($nodes_total>0){ // more than 1 node ?>	
 
 									
 <table class="table table-hover display" id="NodesTable">
@@ -279,6 +279,7 @@ $ctx = stream_context_create(array('http'=>
 <?php // start work // 
 $ip =$nodes_row['ip'];
 $port = $nodes_row['port'];
+$node_name = $nodes_row['name'];
 $id = $nodes_row['node_id'];
 // CURL check
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/",false,$ctx);
@@ -359,8 +360,9 @@ $arr_counter = $arr_counter+1;
 } // end online check 
 
 	// summary table keys
+	if(isset($summarytable_egress_total)){
 	$summarytable_keys = array_keys($summarytable_egress_total);
-
+}
 	
 // end work
 	
@@ -378,7 +380,7 @@ $arr_counter = $arr_counter+1;
     <tr>
       <th nowrap="nowrap" scope="row">
 <?php if($node_ver>0){ ?>
-<a href="./?page=nodeView&id=<?php echo $id; ?>"><?php echo $ip.":".$port; ?></a> <small>v<?php echo $node_ver;?></small>
+<a href="./?page=nodeView&id=<?php echo $id; ?>"><?php echo $node_name; ?></a> <small>v<?php echo $node_ver;?></small>
 <?php }else{ echo $ip.":".$port; }?>
 &nbsp;&nbsp;&nbsp;<a href="./?page=nodeEdit&id=<?php echo $id; ?>"><i class="fas fa-edit"></i></a>
 </th>

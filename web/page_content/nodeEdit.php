@@ -22,8 +22,9 @@ if(isset($_POST['submit'])){
 
 	$server_ip = $_POST['node_ip'];
 	$server_port = $_POST['node_port'];
+	$server_name = $_POST['node_name'];
 	
-$docker_query = "UPDATE `$database_sql`.`nodes` SET `port`='$server_port', `ip`='$server_ip' WHERE  `node_id`='$node_id';";
+$docker_query = "UPDATE `$database_sql`.`nodes` SET `name`='$server_name', `port`='$server_port', `ip`='$server_ip' WHERE  `node_id`='$node_id';";
 $docker_result = mysqli_query($sql, $docker_query);
 	?>
 <h1>Updated Node</h1>
@@ -36,7 +37,7 @@ $docker_result = mysqli_query($sql, $docker_query);
 
                     <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Editing [<?php echo $nodes_row['ip'].":".$nodes_row['port']; ?>]</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Editing <?php echo $nodes_row['name']; ?> <small>[<?php echo $nodes_row['ip'].":".$nodes_row['port']; ?>]</small></h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-toggle="modal" data-target="#node_delete_modal"><i class="fas fa-trash" ></i> Delete Node</a>
                     </div>
 
@@ -61,6 +62,11 @@ $docker_result = mysqli_query($sql, $docker_query);
 <div class="form-group">
 
 <div class="form-group">
+    <label for="node_name">Node name</label>
+    <input name="node_name" type="text" required="required" class="form-control" id="node_name" placeholder="Example: Storj-01" value="<?php echo $nodes_row['name'];?>">
+  </div>  	
+	
+<div class="form-group">
     <label for="node_ip">Node IP</label>
     <input name="node_ip" type="text" autofocus="autofocus" required="required" class="form-control" id="node_ip" placeholder="Example: 192.168.5.101" value="<?php echo $nodes_row['ip'];?>">
   </div>                                    
@@ -69,6 +75,8 @@ $docker_result = mysqli_query($sql, $docker_query);
     <label for="node_port">Node Port</label>
     <input name="node_port" type="number" required="required" class="form-control" id="node_port" placeholder="Example: 14002" value="<?php echo $nodes_row['port'];?>">
   </div>  
+	
+	
 
                                 </div>								
                                 

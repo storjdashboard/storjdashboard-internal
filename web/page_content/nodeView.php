@@ -39,7 +39,7 @@ $(document).ready(function(){
 
 <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Viewing [<?php echo $nodes_row['ip'].":".$nodes_row['port']; ?>]</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Viewing [<?php echo $nodes_row['name']; ?>]</h1>
                         <a href="./?page=nodeEdit&id=<?php echo $id; ?>" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-edit"></i> Edit Node</a>
                     </div>
 

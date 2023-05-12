@@ -9,10 +9,11 @@ if(isset($_POST['update'])){
 		if(isset($_POST['restricted'])){if(is_null($_POST['restricted']) || $_POST['restricted'] ==''){ $set_restrict =0; }else{ $set_restrict = $_POST['restricted'];}}
 		if(isset($_POST['live_data'])){if(is_null($_POST['live_data']) || $_POST['live_data'] ==''){ $set_show_live_bw =0; }else{ $set_show_live_bw = $_POST['live_data'];}}
 		if(isset($_POST['server_info'])){if(is_null($_POST['server_info']) || $_POST['server_info'] ==''){ $set_show_server_info =0; }else{ $set_show_server_info = $_POST['server_info'];}}
+		$allowiplist = $_POST['allowlist'];
 	
 	if($set_show_live_bw==''){$set_show_live_bw=0;}
 	if($set_restrict==''){$set_restrict=0;}
-	$features_update_query = "UPDATE `$database_sql`.`config` SET `show_live_bw` = '$set_show_live_bw', `restrict` = '$set_restrict', `show_server_info` = '$set_show_server_info' WHERE (`id` = '0');";
+	$features_update_query = "UPDATE `$database_sql`.`config` SET `show_live_bw` = '$set_show_live_bw', `restrict` = '$set_restrict', `show_server_info` = '$set_show_server_info', `allow-ip-list` = '$allowiplist' WHERE (`id` = '0');";
 		$features_update_result = mysqli_query($sql, $features_update_query);
 	$updated = 1;
  //read site config // 
@@ -51,25 +52,39 @@ $config_row = mysqli_fetch_assoc($config_result);
           <div class="col-12">
                         <div class="p-5">
                             <form action="?page=settingsFeatures" method="post" enctype="multipart/form-data" id="form" name="form" novalidate="novalidate">
-                                <div class="form-group row">
-									
+                                <div class="form-group">
 <?php if($updated==1){?>
-<span class"text-center">Your settings have been updated!</span>
+<h3 align="center" style="color: darkgreen">Your settings have been updated!</h3>
 <?php }?>
-                            
+        
+
+									
 <div class="col-12 m-2 text-center form-check">
-<input name="server_info" type="checkbox" id="server_info" form="form" value="1" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="sm" <?php if($config_row['show_server_info']){ echo "checked"; } ?>>
-<label class="form-check-label" for="server_info">Display Server Info <small>(Linux Only)</small></label>										
+<input name="server_info" type="checkbox" id="server_info" form="form" value="1" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="sm" <?php if($config_row['show_server_info']){ echo "checked"; } ?> <?php if(PHP_OS!='Linux'){ echo "disabled"; }; ?>>
+<label class="form-check-label" for="server_info"> Server Info <small>(Linux Only)</small></label>										
 </div>                             
 <div class="col-12 m-2 text-center form-check">
 <input name="live_data" type="checkbox" id="live_data" form="form" value="1" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="sm" <?php if($config_row['show_live_bw']){ echo "checked"; } ?>>
-<label class="form-check-label" for="live_data">Display Network Info <span class="badge bg-warning text-dark">beta</span></label>										
+<label class="form-check-label" for="live_data"> Live Network Info <span class="badge bg-warning text-dark">beta</span></label>										
 </div>
 <div class="col-12  m-2 text-center">
 <input name="restricted" type="checkbox" id="restricted" form="form" value="1" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="sm" <?php if($config_row['restrict']){ echo "checked"; } ?>>
 <label class="form-check-label" for="restricted">Authenticated Login</label>										
 </div>
-                                </div>
+									<p></p>
+<center>
+<div class="mb-3 col-xl-6">
+  <label for="exampleFormControlTextarea1" class="form-label text-center">Bypass Login - Allowed IP List<br>
+<small><strong>Exmaple: </strong><br>
+	<em>192.168.0.1-192.168.0.255</em><br>
+	<em>192.168.0.122-192.168.0.122</em>
+	<br>
+<strong>one range per line</strong></small></label> 
+  <textarea class="form-control" id="allowlist" name="allowlist" rows="3"><?php echo $config_row['allow-ip-list']; ?></textarea>
+</div>
+</center>															
+</div>
+
 <div class="text-center">                                
                                 <button type="submit" class="btn btn-primary btn-user">
                                     Update Settings
