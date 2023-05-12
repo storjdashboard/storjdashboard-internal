@@ -1,7 +1,14 @@
 <?php if(!isset($single_node_id)){ ?>
 <?php require_once("../../../cfg.php"); ?>
 <?php require_once("../../../Connections/sql.php"); ?>
-<?php require_once("../../restrict.php"); ?>
+<?php if($config_row['allow-ip-list']!=null){
+	require_once("../../../include_content/allow-ip-range.php");
+	if($in_range!=1){
+		if($config_row['restrict']==1){ require_once($resitrct_file); } 
+	}
+}else{
+	if($config_row['restrict']==1){ require_once($resitrct_file); } 
+} ?>
 <?php }
 if(isset($single_node_id)){
 $nodes_scores_query = "SELECT * FROM $database_sql.nodes where `node_id` = '$single_node_id';";
