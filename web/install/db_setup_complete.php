@@ -64,6 +64,7 @@ fclose($myfile);
 	`show_live_bw` INT(10) NOT NULL DEFAULT '0',
 	`show_server_info` INT(10) NOT NULL DEFAULT '0',
 	`restrict` INT(10) NOT NULL DEFAULT '0',
+	`allow-ip-list` longtext NULL,
 	PRIMARY KEY (`id`) USING BTREE
 );";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
@@ -106,12 +107,13 @@ fclose($myfile);
    			} 
 		
 				try{
-	$insert_sql = "CREATE TABLE IF NOT EXISTS `nodes` (
-  `node_id` int NOT NULL AUTO_INCREMENT,
-  `ip` varchar(45) NOT NULL,
-  `port` varchar(45) NOT NULL,
-  PRIMARY KEY (`node_id`)
-) ;";
+	$insert_sql = "CREATE TABLE `nodes` (
+	`node_id` INT(10) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NULL DEFAULT 'Node' ,
+	`ip` VARCHAR(45) NOT NULL ,
+	`port` VARCHAR(45) NOT NULL ,
+	PRIMARY KEY (`node_id`) USING BTREE
+);";
 	$insert_sql_result = mysqli_query($sql,$insert_sql);
 			echo "Created nodes".$newline;
 				} catch (mysqli_sql_exception $e) { 

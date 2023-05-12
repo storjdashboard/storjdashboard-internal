@@ -10,6 +10,7 @@ CREATE TABLE `config` (
 	`show_live_bw` INT(10) NOT NULL DEFAULT '0',
 	`show_server_info` INT(10) NOT NULL DEFAULT '0',
 	`restrict` INT(10) NOT NULL DEFAULT '0',
+	`allow-ip-list` LONGTEXT NULL,	
 	PRIMARY KEY (`id`) USING BTREE
 );
 
@@ -38,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `login` (
 -- Dumping structure for table storj_dashboard.nodes
 CREATE TABLE IF NOT EXISTS `nodes` (
   `node_id` int NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NULL DEFAULT 'Node',
   `ip` varchar(45) NOT NULL,
   `port` varchar(45) NOT NULL,
   PRIMARY KEY (`node_id`)
@@ -56,6 +58,3 @@ CREATE TABLE IF NOT EXISTS `paystubs` (
   `distributed` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';
-
-INSERT INTO `config` (`id`, `show_live_bw`, `show_server_info`, `restrict`) VALUES (0, 0, 0, 1);
-INSERT INTO `login` (`user`, `pw`) VALUES ('admin', 'a8b64babd0aca91a59bdbb7761b421d4f2bb38280d3a75ba0f21f2bebc45583d446c598660c94ce680c47d19c30783a7');
