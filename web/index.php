@@ -28,7 +28,15 @@ if(isset($_GET['page']) && $_GET['page']=='install'){ header('Location: '.dirnam
 if(!isset($_GET['page']) && file_exists("install")){ header('Location: '.dirname($_SERVER['PHP_SELF']).'/install/'); exit; }
 
 require_once("cfg.php"); 
-if($config_row['restrict']==1){ require_once($resitrct_file); } 
+if($config_row['allow-ip-list']!=null){
+	require_once("include_content/allow-ip-range.php");
+	if($in_range!=1){
+		if($config_row['restrict']==1){ require_once($resitrct_file); } 
+	}
+}else{
+	if($config_row['restrict']==1){ require_once($resitrct_file); } 
+}
+
 require_once($sql_conn_file);
 if($_SERVER['QUERY_STRING']==''){	header("location: ./?page=dashboard"); exit; };
 ?>
