@@ -195,6 +195,12 @@ $ConfigExists=0;
 				$pass_count=$pass_count+1;
 			}
 
+	
+/////////////
+	// MODIFY SQL 
+	include_once("modifyDB_nodes.php");
+	
+	
 ///////////////	
 
 } catch (mysqli_sql_exception $e) { 
