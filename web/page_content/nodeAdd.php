@@ -3,10 +3,11 @@
 //
 if(isset($_POST['node_ip']) && isset($_POST['node_port'])){
 	
+	$server_name = $_POST['node_name'];
 	$server_ip = $_POST['node_ip'];
 	$server_port = $_POST['node_port'];
 	
-$docker_query = "INSERT INTO `$database_sql`.`nodes` (`ip`, `port`) VALUES ('$server_ip', '$server_port');";
+$docker_query = "INSERT INTO `$database_sql`.`nodes` (`name`, `ip`, `port`) VALUES ('$server_name','$server_ip', '$server_port');";
 $docker_result = mysqli_query($sql, $docker_query);
 	?>
 <h1>Added Node</h1>
@@ -42,10 +43,14 @@ $docker_result = mysqli_query($sql, $docker_query);
                         <div class="p-5">
                             <form method="post" enctype="multipart/form-data">
                                 <div class="form-group">
-
+<div class="form-group">
+    <label for="node_name">Node Name</label>
+    <input name="node_name" type="text" autofocus="autofocus" required="required" class="form-control" id="node_name" placeholder="Example: Storj-01">
+  </div>   
+									
 <div class="form-group">
     <label for="node_ip">Node IP</label>
-    <input name="node_ip" type="text" autofocus="autofocus" required="required" class="form-control" id="node_ip" placeholder="Example: 192.168.5.101">
+    <input name="node_ip" type="text" required="required" class="form-control" id="node_ip" placeholder="Example: 192.168.5.101">
   </div>                                    
 
 <div class="form-group">
