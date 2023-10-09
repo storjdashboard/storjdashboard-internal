@@ -68,9 +68,9 @@ $audit_count = count($arr['audits']);
 $counter = $counter+1;		
 	}while($counter<$audit_count);
 
-$audit_online_total_percent = $audit_online_total_percent+$audit_online_total/6*100;
-$audit_audit_total_percent = $audit_audit_total_percent+$audit_audit_total/6*100;
-$audit_susp_total_percent = $audit_susp_total_percent+$audit_susp_total/6*100;
+$audit_online_total_percent = $audit_online_total_percent+$audit_online_total/$counter*100;
+$audit_audit_total_percent = $audit_audit_total_percent+$audit_audit_total/$counter*100;
+$audit_susp_total_percent = $audit_susp_total_percent+$audit_susp_total/$counter*100; // corrected from 6, due to amount of online satellites change
 
 ?>  
 
