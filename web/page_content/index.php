@@ -1,4 +1,8 @@
 <?php 
+//ini_set('display_errors', '1');
+//ini_set('display_startup_errors', '1');
+//error_reporting(E_ALL);
+
 $nodes_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
@@ -11,7 +15,34 @@ function formatSize($bytes,$decimals=2){
     return sprintf("%.{$decimals}f",$bytes/pow(1000,$factor)).@$size[$factor];
 }
 ?> 
+<?php
+function allValuesZero($array) {
+    // Use array_filter() to remove non-zero values
+    $filteredArray = array_filter($array, function($value) {
+        return $value !== 0;
+    });
 
+    // If the count of non-zero values is zero, all values are zero
+    return count($filteredArray) === 0;
+} 
+function allValuesLessThanThreshold($array, $threshold) {
+    foreach ($array as $value) {
+        if ($value >= $threshold) {
+            return false;
+        }
+    }
+    return true;
+}
+function allValuesHigherThanThreshold($array, $threshold) {
+    foreach ($array as $value) {
+        if ($value <= $threshold) {
+            return false;
+        }
+    }
+    return true;
+}
+
+?>
 <div class="container-fluid">
 
 <script>
@@ -307,7 +338,33 @@ $node_quic = $arr['quicStatus'];
 
 $LastPingToTime = explode(".",$arr['lastPinged']);
 $LastPingToTime = strtotime($LastPingToTime[0]);
-$onlineCalc = round(time()-$LastPingToTime);
+$onlineCalc = round(time()-$LastPingToTime);   
+    
+    // satellite disquali check 
+        $satellites_count = count($arr['satellites']);
+        $counter=0;
+        $sat_url=[];
+        $sat_disq=[];
+        $sat_susp=[];
+        $sat_status=[];
+            do{
+                $sat_url[$counter] = $arr['satellites'][$counter]['url'];
+                $sat_disq[$counter] = $arr['satellites'][$counter]['disqualified'];
+                $sat_susp[$counter] = $arr['satellites'][$counter]['suspended'];
+                
+                if($sat_disq[$counter]==null && $sat_susp[$counter]==null){
+                    $sat_status[$counter] = 0;
+                }else{
+                    $sat_status[$counter] = 1;
+                }
+                
+                $counter=$counter+1;
+            }while($counter!=$satellites_count);
+    
+    
+    
+    
+    //////// disquali check end
 //if($onlineCalc<=30){$onlineResult = 1;}else{$onlineResult = 0;}
 if($validCheck>0){$onlineResult = 1;}else{$onlineResult = 0;}	
 }else{
@@ -357,6 +414,34 @@ $arr_counter = $arr_counter+1;
 }while($total_bwDaily_count>0);
 ///////////////
 
+$sat_audit_total = count($arr['audits']);
+$sat_audit_count = 0;
+    $sat_audit_auditScore=[];
+    $sat_audit_suspensionScore=[];
+    $sat_audit_onlineScore=[];
+    $sat_audit_name=[];
+    $sat_audit_status=[];
+    do{ 
+        $sat_audit_auditScore = $arr['audits'][$sat_audit_count]['auditScore'];
+        $sat_audit_suspensionScore = $arr['audits'][$sat_audit_count]['suspensionScore'];
+        $sat_audit_onlineScore = $arr['audits'][$sat_audit_count]['onlineScore'];
+        $sat_audit_name = $arr['audits'][$sat_audit_count]['satelliteName'];
+
+        if($sat_audit_auditScore>0.99 && $sat_audit_suspensionScore>0.99 && $sat_audit_onlineScore>0.99){
+                $sat_audit_status[$sat_audit_count] = 0.99;
+            }elseif($sat_audit_auditScore>0.98 && $sat_audit_suspensionScore>0.98 && $sat_audit_onlineScore>0.98){
+                $sat_audit_status[$sat_audit_count] = 0.98;
+            }elseif($sat_audit_auditScore>0.97 && $sat_audit_suspensionScore>0.97 && $sat_audit_onlineScore>0.97){
+                $sat_audit_status[$sat_audit_count] = 0.97;
+            }elseif($sat_audit_auditScore>0.96 && $sat_audit_suspensionScore>0.96 && $sat_audit_onlineScore>0.96){
+                $sat_audit_status[$sat_audit_count] = 0.96;            
+            }else{$sat_audit_status[$sat_audit_count] = 0.95;}
+        //$sat_audit_status[$sat_audit_count]['name']=$sat_audit_name; // SET NAME 
+        
+        $sat_audit_count = $sat_audit_count+1;
+    }while($sat_audit_count!=$sat_audit_total);
+    
+    
 } // end online check 
 
 	// summary table keys
@@ -382,7 +467,23 @@ $arr_counter = $arr_counter+1;
 <?php if($node_ver>0){ ?>
 <a href="./?page=nodeView&id=<?php echo $id; ?>"><?php echo $node_name; ?></a> <small>v<?php echo $node_ver;?></small>
 <?php }else{ echo $ip.":".$port; }?>
-&nbsp;&nbsp;&nbsp;<a href="./?page=nodeEdit&id=<?php echo $id; ?>"><i class="fas fa-edit"></i></a>
+&nbsp;<?php if (allValuesZero($sat_status)) { ?>
+      <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #63E6BE;"></i>
+      <?php }else{ ?>
+    <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #e02929;"></i>
+    <?php } ?>
+      &nbsp;
+      <?php 
+    if (allValuesHigherThanThreshold($sat_audit_status, 0.989)) { ?>
+      <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #63E6BE;"></i>
+    <?php }elseif(allValuesHigherThanThreshold($sat_audit_status, 0.979)) {  ?>
+           <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #ffb070;"></i>
+     <?php }elseif(allValuesHigherThanThreshold($sat_audit_status, 0.959)) {  ?>
+           <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #F56D00;"></i>
+    <?php }else{ ?>
+            <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #e02929;"></i>
+    <?php } ?>     
+      <?php //print_r($sat_status); echo " | "; print_r($sat_audit_status); // DEBUG ?>&nbsp;&nbsp;&nbsp;<a href="./?page=nodeEdit&id=<?php echo $id; ?>"><i class="fas fa-edit"></i></a>
 </th>
       <td nowrap="nowrap">
         <?php if($onlineResult == 1){ $onlineCounter = $onlineCounter+1;?>
@@ -426,7 +527,7 @@ $arr_counter = $arr_counter+1;
 <?php } while ($nodes_row = mysqli_fetch_assoc($nodes_result)); ?>    
     </tbody>
 </table>         
-
+<br>First = Susp/Disq Satellites<br>Second = Audit/Susp/Online Satellites
 <?php 
 }else{
 ?>
