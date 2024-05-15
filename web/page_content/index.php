@@ -399,7 +399,7 @@ $arr = json_decode($jsonobj, true);
 if (count($arr['bandwidthDaily']) !== null && (is_array(count($arr['bandwidthDaily'])) || is_countable(count($arr['bandwidthDaily'])))) {
     $total_bwDaily_count = count($arr['bandwidthDaily']);
 } else {
-    // Handle the case when $your_variable is null or not countable
+   $total_bwDaily_count = 0; // Handle the case when $your_variable is null or not countable
 }
 
 $arr_counter = 0;
