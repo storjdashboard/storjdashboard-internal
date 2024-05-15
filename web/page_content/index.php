@@ -1,4 +1,8 @@
 <?php 
+
+// Set to 0 to disable the time limit
+set_time_limit(0);
+
 //ini_set('display_errors', '1');
 //ini_set('display_startup_errors', '1');
 //error_reporting(E_ALL);
@@ -391,7 +395,13 @@ $payout_expected_overall = $payout_expected_overall+$payout_expected;
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/satellites", false, $ctx);
 $arr = json_decode($jsonobj, true);
 
-$total_bwDaily_count = count($arr['bandwidthDaily']);
+    
+if (count($arr['bandwidthDaily']) !== null && (is_array(count($arr['bandwidthDaily'])) || is_countable(count($arr['bandwidthDaily'])))) {
+    $total_bwDaily_count = count($arr['bandwidthDaily']);
+} else {
+    // Handle the case when $your_variable is null or not countable
+}
+
 $arr_counter = 0;
 do{ 
 $egress = $arr['bandwidthDaily'][$arr_counter]['egress'];
@@ -545,6 +555,7 @@ $sat_audit_count = 0;
         $('#current_month_payout').html('<?php echo number_format(($payout_overall-$payout_overall_held)/100,2)." / $ ".number_format($payout_expected_overall/100,2);?>');
     });
 </script>
+
 <script type='text/javascript'>
     $(function(){  
         $('#bw_all').html('<?php echo formatSize($bandwidth_all); ?>');
