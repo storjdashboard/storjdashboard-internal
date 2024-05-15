@@ -1,5 +1,4 @@
 <?php 
-
 // Set to 0 to disable the time limit
 set_time_limit(0);
 
@@ -395,12 +394,21 @@ $payout_expected_overall = $payout_expected_overall+$payout_expected;
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/satellites", false, $ctx);
 $arr = json_decode($jsonobj, true);
 
-    
-if (count($arr['bandwidthDaily']) !== null && (is_array(count($arr['bandwidthDaily'])) || is_countable(count($arr['bandwidthDaily'])))) {
+//if (count($arr['bandwidthDaily']) !== null && (is_array(count($arr['bandwidthDaily'])) || is_countable(count($arr['bandwidthDaily'])))) {
+//    $total_bwDaily_count = count($arr['bandwidthDaily']);
+//} else {
+//   $total_bwDaily_count = 0; // Handle the case when $your_variable is null or not countable
+//}
+
+if(is_countable($arr['bandwidthDaily'])){
     $total_bwDaily_count = count($arr['bandwidthDaily']);
-} else {
-   $total_bwDaily_count = 0; // Handle the case when $your_variable is null or not countable
-}
+}else{
+    echo "<h2>Bandwidth Issue : $ip : $port</h2>";
+    print_r($arr['bandwidthDaily']);
+} 
+    
+
+
 
 $arr_counter = 0;
 do{ 
