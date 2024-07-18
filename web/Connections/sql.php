@@ -2,9 +2,9 @@
 ini_set('display_errors', 0 ); //change value to 1 instead of 0 for debugging
 
 $hostname_sql = "localhost";
-$database_sql = "";
-$username_sql = "";
-$password_sql = "";
+$database_sql = "your_db";
+$username_sql = "your_user";
+$password_sql = "your_pw";
 $sql = "";
 
 if($hostname_sql=="" || $database_sql==""  || $username_sql==""  || $password_sql==""){
