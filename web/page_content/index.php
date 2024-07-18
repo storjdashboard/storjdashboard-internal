@@ -45,6 +45,27 @@ function allValuesHigherThanThreshold($array, $threshold) {
     return true;
 }
 
+function timeAgoHrM($unixTimestamp) {
+    // Get the current time in the server's timezone
+    $currentTime = time();
+    
+    // Get the server's timezone offset in seconds
+    $timezoneOffset = date("Z");
+
+    // Convert the current time to UTC
+    $currentTimeUTC = $currentTime - $timezoneOffset;
+
+    // Calculate the difference between the current UTC time and the given timestamp
+    $timeDifference = $currentTimeUTC - $unixTimestamp;
+
+    // Calculate the difference in hours and minutes
+    $hours = floor($timeDifference / 3600);
+    $minutes = floor(($timeDifference % 3600) / 60);
+
+    // Format the result
+    $result = sprintf("%d hrs %d mins", $hours, $minutes);
+    return $result;
+}
 ?>
 <div class="container-fluid">
 
@@ -338,6 +359,8 @@ $bandwidth_all = $bandwidth_all+$arr['bandwidth']['used'];
 	
 $node_ver = $arr['version'];
 $node_quic = $arr['quicStatus'];
+$node_startedAt = explode(".",$arr['startedAt']);
+$node_startedAt = strtotime($node_startedAt[0]);
 
 $LastPingToTime = explode(".",$arr['lastPinged']);
 $LastPingToTime = strtotime($LastPingToTime[0]);
@@ -403,9 +426,31 @@ $arr = json_decode($jsonobj, true);
 if(is_countable($arr['bandwidthDaily'])){
     $total_bwDaily_count = count($arr['bandwidthDaily']);
 }else{
-    echo "<h2>Bandwidth Issue : $ip : $port</h2>";
-    print_r($arr['bandwidthDaily']);
+    echo "<h5>Bandwidth Issue : $ip : $port</h5>";
+continue;
+    //print_r($arr['bandwidthDaily']);
 } 
+
+//////////////////////
+$earliestJoinedAt = $arr['earliestJoinedAt'];
+// Given date string
+$givenDateStr = $earliestJoinedAt;
+
+// Create a DateTime object from the given date string
+$givenDate = new DateTime($givenDateStr);
+
+// Get the current date and time
+$currentDate = new DateTime();
+
+// Calculate the difference between the given date and the current date
+$interval = $currentDate->diff($givenDate);
+
+// Get the difference in months
+$monthsAgo = $interval->y * 12 + $interval->m;
+
+// Display the result
+//echo $monthsAgo . ' months ago';
+/////////////////////    
     
 
 
@@ -501,7 +546,13 @@ $sat_audit_count = 0;
     <?php }else{ ?>
             <i class="fa-solid fa-circle fa-fade fa-2xs" style="color: #e02929;"></i>
     <?php } ?>     
-      <?php //print_r($sat_status); echo " | "; print_r($sat_audit_status); // DEBUG ?>&nbsp;&nbsp;&nbsp;<a href="./?page=nodeEdit&id=<?php echo $id; ?>"><i class="fas fa-edit"></i></a>
+      <?php //print_r($sat_status); echo " | "; print_r($sat_audit_status); // DEBUG ?>
+
+          
+          &nbsp;
+          <?php echo "<small>". $monthsAgo ." months </small>"; ?>
+          
+          &nbsp;&nbsp;&nbsp;<a href="./?page=nodeEdit&id=<?php echo $id; ?>"><i class="fas fa-edit"></i></a>
 </th>
       <td nowrap="nowrap">
         <?php if($onlineResult == 1){ $onlineCounter = $onlineCounter+1;?>
@@ -517,8 +568,9 @@ $sat_audit_count = 0;
             <i class="fas fa-times"></i>
             </span>
           <span class="text">OFFLINE</span>
-          </span>                
+          </span>
         <?php } ?>
+		  <small><?php echo timeAgoHrM($node_startedAt); ?></small>		  
       </td>
       <td nowrap="nowrap">
         <?php if($node_quic == 'OK'){ ?>
@@ -552,7 +604,8 @@ $sat_audit_count = 0;
 					<div class="card-body pt-3">
 						<a href="./?page=nodeAdd">Add a Node</a>
 					</div>
-<?php } ?>									
+<?php } ?>	
+
 <script type='text/javascript'>
     $(function(){  
         $('#nodes_online_count').html('<?php echo $onlineCounter; ?>/<?php echo $nodes_total ;?>');
@@ -686,13 +739,14 @@ $total_cs = $up_cs+$down_cs;
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
+                 
                         
                     </div>                                        
                     
-                       <!-- Content Row -->
+                    
 
                     
 
-                    <!-- Content Row --></div>
+            </div>
 <?php } ?>
+
