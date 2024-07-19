@@ -6,14 +6,10 @@ $sql_conn_file = "Connections/sql.php"; // Can be left alone
 $resitrct_file = "include_content/restrict.php"; // Can be left alone
 
 /// no editing required below this ------------------
-?>
-
-<?php
+?><?php
 //function errorHandler() { echo "<script>window.location = '?page=error';</script>"; }
 //set_error_handler('errorHandler');
-?>
-
-<?php require_once($sql_conn_file);
+?><?php require_once($sql_conn_file);
  //read site config // 
 $config_query = "SELECT * FROM $database_sql.config where id = 0;";
 $config_result = mysqli_query($sql, $config_query);
