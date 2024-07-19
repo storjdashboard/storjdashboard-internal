@@ -1,12 +1,30 @@
-<?php require_once("../../../cfg.php"); ?>
-<?php require_once("../../../Connections/sql.php"); ?>
+<?php 
+require_once("../../../cfg.php"); ?>
+<?php require_once("../../../Connections/sql.php"); 
+
+// Define the function for including files with a fallback
+function includeFileWithFallback($file, $fallback) {
+    if (file_exists($file)) {
+        require_once($file);
+    } elseif (file_exists($fallback)) {
+        require_once($fallback);
+    } else {
+        echo "Fetch Error";
+    }
+}
+
+// Define the file paths for restriction
+$original_path = $resitrct_file;
+$fallback_path = "../../../$resitrct_file";
+/////////////////
+?>
 <?php if($config_row['allow-ip-list']!=null){
 	require_once("../../../include_content/allow-ip-range.php");
 	if($in_range!=1){
-		if($config_row['restrict']==1){ require_once($resitrct_file); } 
+		if($config_row['restrict']==1){ includeFileWithFallback($original_path, $fallback_path); } 
 	}
 }else{
-	if($config_row['restrict']==1){ require_once($resitrct_file); } 
+	if($config_row['restrict']==1){ includeFileWithFallback($original_path, $fallback_path); } 
 } ?>
 <?php 
 // first month 
