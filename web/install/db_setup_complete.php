@@ -211,4 +211,14 @@ fclose($myfile);
 header("location: ./");
 } /// post file = 0
 
+
+    <script>
+        // Redirect to another URL after the page loads
+        window.onload = function() {
+            // Set the URL to which you want to redirect
+            var newURL = "./";
+            // Perform the redirect
+            window.location.href = newURL;
+        };
+    </script>	
 ?>
