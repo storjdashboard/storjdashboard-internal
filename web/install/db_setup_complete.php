@@ -212,7 +212,8 @@ header("location: ./");
 } /// post file = 0
 
 
-    <script>
+
+?>    <script>
         // Redirect to another URL after the page loads
         window.onload = function() {
             // Set the URL to which you want to redirect
@@ -221,4 +222,3 @@ header("location: ./");
             window.location.href = newURL;
         };
     </script>	
-?>
