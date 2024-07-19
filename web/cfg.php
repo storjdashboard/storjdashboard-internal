@@ -1,6 +1,6 @@
 <?php
 ///config file
-$root_dir = "/var/www/html/.[FOLDER].";  // Edit this to your direct server pathway | DO NOT ADD TRAILING '/'
+$root_dir = "/var/www/html/[cfg_root_dir]";  // Edit this to your direct server pathway | DO NOT ADD TRAILING '/'
 $root_url_dir = "."; // Can be left alone
 $sql_conn_file = "Connections/sql.php"; // Can be left alone
 $resitrct_file = "include_content/restrict.php"; // Can be left alone
