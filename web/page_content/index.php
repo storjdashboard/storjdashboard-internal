@@ -6,7 +6,12 @@ set_time_limit(0);
 //ini_set('display_startup_errors', '1');
 //error_reporting(E_ALL);
 
-$nodes_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
+if(isset($_GET['setHost'])){
+    $host = $_GET['setHost'];
+    $nodes_query = "SELECT * FROM $database_sql.nodes where host_id=$host order by ip asc;";
+}else{
+    $nodes_query = "SELECT * FROM $database_sql.nodes order by ip asc;";
+}
 $nodes_result = mysqli_query($sql, $nodes_query);
 $nodes_total = mysqli_num_rows($nodes_result);
 $nodes_row = mysqli_fetch_assoc($nodes_result);
@@ -301,6 +306,7 @@ $<span id="total_pay"><i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-
       <th scope="col">Status</th>
       <th scope="col">QUIC</th>
       <th scope="col">Bandwidth</th>
+      <th scope="col">IP/<small>24</small></th>
       <th scope="col">Storage</th>
     </tr>
   </thead>
@@ -336,6 +342,7 @@ $ip =$nodes_row['ip'];
 $port = $nodes_row['port'];
 $node_name = $nodes_row['name'];
 $id = $nodes_row['node_id'];
+$ext_ip = $nodes_row['ext_ip'];
 // CURL check
 $jsonobj = @file_get_contents("http://$ip:$port/api/sno/",false,$ctx);
 $arr = json_decode($jsonobj, true);
@@ -351,7 +358,9 @@ if(is_array($arr)){
 if($validCheck>0){
 
 $capacity = formatSize($arr['diskSpace']['available']);
+$capacity_pure = $arr['diskSpace']['available'];
 $storage = formatSize($arr['diskSpace']['used']+$arr['diskSpace']['trash']);
+$storage_pure = $arr['diskSpace']['used']+$arr['diskSpace']['trash'];
 $bandwidth = formatSize($arr['bandwidth']['used']);
 $capacity_all = $capacity_all+$arr['diskSpace']['available'];
 $storage_all = $storage_all+$arr['diskSpace']['used']+$arr['diskSpace']['trash'];
@@ -590,7 +599,80 @@ $sat_audit_count = 0;
         <?php } ?>		
 		</td>
       <td nowrap="nowrap"><?php echo $bandwidth; ?></td>
-      <td nowrap="nowrap"><?php echo $storage; ?> / <?php echo $capacity; ?></td>
+      <td nowrap="nowrap">
+<?php
+// Example host
+$host = $ext_ip;
+
+// Resolve host to IP
+$ext_ip = gethostbyname($host);
+
+// If the host could not be resolved, return null
+if ($ext_ip === $host) {
+    $ext_ip = null;
+}
+
+if (!empty($ext_ip)) {
+    // The URL you want to send the cURL request to
+    $url = "https://storjnet.info/api/neighbors/$ext_ip";
+
+    // Initialize a cURL session
+    $ch = curl_init();
+
+    // Set the cURL options
+    curl_setopt($ch, CURLOPT_URL, $url); // Set the URL to fetch
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the transfer as a string
+
+    // Execute the cURL session
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    } else {
+        // Decode the JSON response into an associative array
+        $data = json_decode($response, true);
+
+        // Check if the JSON decoding was successful
+        if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+            echo 'JSON decode error: ' . json_last_error_msg();
+        } else {
+            // Access the data in the array
+            foreach ($data as $key => $value) {
+                // Example of processing the response
+            }
+
+            // Example: If you need specific data, you can extract it like this:
+            $neighbor1 = $data; // First neighbor object
+            $neighbor_count = $neighbor1['result']['count'] ?? 0; // Example of accessing a specific field
+
+            // Print the extracted data
+            echo $neighbor_count;
+        }
+    }
+
+    // Close the cURL session
+    curl_close($ch);
+} else {
+    echo "No IP";
+}
+?>
+
+      </td>
+      <td nowrap="nowrap" class="small"><?php echo $storage; ?> / <?php echo $capacity; ?><br>
+ <?php 
+                 $usagePercentage = ($storage_pure / $capacity_pure) * 100;
+?>
+      <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                style="width: <?php echo $usagePercentage; ?>%;" 
+                                aria-valuenow="<?php echo $usagePercentage; ?>" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                <?php echo number_format($usagePercentage, 2); ?>%
+                            </div>
+                        </div>
+    </td>
     
     </tr>
     
