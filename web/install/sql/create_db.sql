@@ -3,58 +3,67 @@
 -- Project:			 StorjDashboard-Internal
 -- --------------------------------------------------------
 
--- Dumping structure for table storj_dashboard.config
-CREATE TABLE `config` (
-	`id` INT(10) NOT NULL,
-	`version` VARCHAR(10) NOT NULL DEFAULT '1',
-	`show_live_bw` INT(10) NOT NULL DEFAULT '0',
-	`show_server_info` INT(10) NOT NULL DEFAULT '0',
-	`restrict` INT(10) NOT NULL DEFAULT '0',
-	`allow-ip-list` LONGTEXT NULL,	
-	PRIMARY KEY (`id`) USING BTREE
-);
+-- Dumping structure for table hass_sd.config
+CREATE TABLE IF NOT EXISTS `config` (
+  `id` int(10) NOT NULL,
+  `version` varchar(10) NOT NULL DEFAULT '1',
+  `show_live_bw` int(10) NOT NULL DEFAULT 0,
+  `show_server_info` int(10) NOT NULL DEFAULT 0,
+  `restrict` int(10) NOT NULL DEFAULT 0,
+  `allow-ip-list` longtext DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
--- Dumping structure for table storj_dashboard.docker
+-- Dumping structure for table hass_sd.docker
 CREATE TABLE IF NOT EXISTS `docker` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `docker_name` tinytext NOT NULL,
   `server_ip` tinytext NOT NULL,
-  `port` int NOT NULL DEFAULT '4243',
-  `user` tinytext,
-  `pw` text,
+  `port` int(11) NOT NULL DEFAULT 4243,
+  `user` tinytext DEFAULT NULL,
+  `pw` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-)COMMENT='adding/removing docker';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='adding/removing docker';
 
-
--- Dumping structure for table storj_dashboard.login
+-- Dumping structure for table hass_sd.login
 CREATE TABLE IF NOT EXISTS `login` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(45) NOT NULL,
   `pw` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping structure for table storj_dashboard.nodes
+-- Dumping structure for table hass_sd.nodes
 CREATE TABLE IF NOT EXISTS `nodes` (
-  `node_id` int NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(50) NULL DEFAULT 'Node',
+  `node_id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT 'Node',
   `ip` varchar(45) NOT NULL,
+  `ext_ip` varchar(50) DEFAULT NULL,
   `port` varchar(45) NOT NULL,
-  PRIMARY KEY (`node_id`)
-) ;
+  `host_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`node_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping structure for table storj_dashboard.paystubs
+-- Dumping structure for table hass_sd.node_hosts
+CREATE TABLE IF NOT EXISTS `node_hosts` (
+  `host_id` int(11) NOT NULL AUTO_INCREMENT,
+  `host_name` mediumtext DEFAULT NULL,
+  PRIMARY KEY (`host_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping structure for table hass_sd.paystubs
 CREATE TABLE IF NOT EXISTS `paystubs` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `satelliteId` tinytext NOT NULL,
   `period` tinytext NOT NULL,
   `created` tinytext NOT NULL,
-  `held` int NOT NULL DEFAULT '0',
-  `owed` int NOT NULL DEFAULT '0',
-  `disposed` int NOT NULL DEFAULT '0',
-  `paid` int NOT NULL DEFAULT '0',
-  `distributed` int NOT NULL DEFAULT '0',
+  `held` int(11) NOT NULL DEFAULT 0,
+  `owed` int(11) NOT NULL DEFAULT 0,
+  `disposed` int(11) NOT NULL DEFAULT 0,
+  `paid` int(11) NOT NULL DEFAULT 0,
+  `distributed` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';
+
+
