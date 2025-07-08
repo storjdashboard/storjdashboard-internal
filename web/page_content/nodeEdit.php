@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
                           <div class="form-group">
                             <label for="node_host_id">Node Host</label>
                             <select name="node_host_id" class="form-control" id="node_host_id">
-                              <option value="none">None</option>
+                              <option value="">None</option>
                               <?php foreach ($hosts as $host): ?>
                                 <option value="<?php echo $host['host_id']; ?>" 
                                   <?php echo ($nodes_row['host_id'] == $host['host_id']) ? 'selected' : ''; ?>>
