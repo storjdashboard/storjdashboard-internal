@@ -1,5 +1,5 @@
 <?php
-$sqlFile = __DIR__ . '/schema.sql'; // Your exported SQL schema file
+$sqlFile = __DIR__ . '../sql/create_db.sql'; // Your exported SQL schema file
 
 // ---- LOAD AND PARSE SCHEMA ----
 $schema = file_get_contents($sqlFile);
