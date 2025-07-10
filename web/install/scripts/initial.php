@@ -118,8 +118,8 @@ if(file_exists("../Connections/sql.php")){
 			$table_count=$table_count+1;
 			
 			}
-		// check 5 tables
-		if(isset($this_table) && count($this_table)==5){
+		// check 6 tables
+		if(isset($this_table) && count($this_table)==6){
 			echo "[PASS] $pass SQL Database Check/Test (<em>$database_sql</em>)".$newline;
 			$pass_count=$pass_count+1;
 		}else{
