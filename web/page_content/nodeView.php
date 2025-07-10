@@ -136,32 +136,45 @@ $ctx = stream_context_create(array('http'=>
 ));
 ?>
 <?php do { ?>
-<?php // start work // 
-$ip =$nodes_row['ip'];
+<?php
+$ip = $nodes_row['ip'];
 $port = $nodes_row['port'];
-// CURL check
-$jsonobj = @file_get_contents("http://$ip:$port/api/sno/",false,$ctx);
+
+$jsonobj = @file_get_contents("http://$ip:$port/api/sno/", false, $ctx);
 $arr = json_decode($jsonobj, true);
 $validCheck = @count($arr);
-if($validCheck>0){
 
-$capacity = formatSize($arr['diskSpace']['available']);
-$storage = formatSize($arr['diskSpace']['used']+$arr['diskSpace']['trash']);
-$bandwidth = formatSize($arr['bandwidth']['used']);
-$node_ver = $arr['version'];
+$vetted_url[1] = $arr['satellites'][0]['url'];
+$vetted_url[2] = $arr['satellites'][1]['url'];
+$vetted_url[3] = $arr['satellites'][2]['url'];
+$vetted_url[4] = $arr['satellites'][3]['url'];
 
-$LastPingToTime = explode(".",$arr['lastPinged']);
-$LastPingToTime = strtotime($LastPingToTime[0]);
-$onlineCalc = round(time()-$LastPingToTime);
-//if($onlineCalc<=300){$onlineResult = 1;}else{$onlineResult = 0;}
-if($validCheck>0){$onlineResult = 1;}else{$onlineResult = 0;}	
-}else{
-	$onlineResult = 0;
-	$capacity = 0;
-	$storage = 0;
-	$bandwidth = 0;
-	$node_ver = 0;
+$vetted_status[1] = $arr['satellites'][0]['vettedAt'];
+$vetted_status[2] = $arr['satellites'][1]['vettedAt'];
+$vetted_status[3] = $arr['satellites'][2]['vettedAt'];
+$vetted_status[4] = $arr['satellites'][3]['vettedAt'];
+
+if ($validCheck > 0) {
+    $capacity = formatSize($arr['diskSpace']['available']);
+    $storage = formatSize($arr['diskSpace']['used'] + $arr['diskSpace']['trash']);
+    $bandwidth = formatSize($arr['bandwidth']['used']);
+    $node_ver = $arr['version'];
+
+    $LastPingToTime = explode(".", $arr['lastPinged']);
+    $LastPingToTime = strtotime($LastPingToTime[0]);
+    $onlineCalc = round(time() - $LastPingToTime);
+
+    $onlineResult = 1;
+
+
+} else {
+    $onlineResult = 0;
+    $capacity = 0;
+    $storage = 0;
+    $bandwidth = 0;
+    $node_ver = 0;
 }
+
 
 //////////////
 if($onlineResult == 1){ // continue if working
@@ -234,10 +247,6 @@ $arr_counter = $arr_counter+1;
     </tbody>
 </table>         
 
-<?php 
-
-?>
-
 <script type='text/javascript'>
     $(function(){  
         $('#nodes_online_count').html('<?php echo $onlineCounter; ?>');
@@ -258,8 +267,119 @@ $arr_counter = $arr_counter+1;
                             </div>
                         </div>     
                     </div>
+                    </div>                    
+
+<div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-3 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?php echo explode('.', $vetted_url[1])[0]; ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php 
+$status = trim($vetted_status[1]); // Remove whitespace
+if (empty($status) || strtolower($status) === 'null') {
+    echo "Not Vetted";
+} else {
+    echo "Vetted";
+}											?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fas fa-server fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-3 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?php echo explode('.', $vetted_url[2])[0]; ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<?php 
+$status = trim($vetted_status[2]); // Remove whitespace
+if (empty($status) || strtolower($status) === 'null') {
+    echo "Not Vetted";
+} else {
+    echo "Vetted";
+}											?>
+											</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fas fa-server fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-3 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?php echo explode('.', $vetted_url[3])[0]; ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<?php 
+$status = trim($vetted_status[3]); // Remove whitespace
+if (empty($status) || strtolower($status) === 'null') {
+    echo "Not Vetted";
+} else {
+    echo "Vetted";
+}											?>											
+											</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fas fa-server fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-3 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?php echo explode('.', $vetted_url[4])[0]; ?></div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+<?php 
+$status = trim($vetted_status[4]); // Remove whitespace
+if (empty($status) || strtolower($status) === 'null') {
+    echo "Not Vetted";
+} else {
+    echo "Vetted";
+}											?>											
+											</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <i class="fas fa-server fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        
                     </div>
-                    
+
+
 					<!--- ROW -->
 
 <div class="row">
