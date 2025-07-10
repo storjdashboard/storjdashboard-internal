@@ -107,7 +107,14 @@ if(file_exists("../Connections/sql.php")){
 		// check sql tables exist
 	if($sql_connection_exist==1){ // database has a value
 			echo "[TEST] $test SQL Database Check/Test (<em>$database_sql</em>)".$newline;
-		
+
+/////////////
+	// MODIFY SQL 
+	include_once("modifyDB_nodes.php");
+	
+	
+///////////////					     
+				     
 		try {
 			$list_tables = "SHOW TABLES FROM `$database_sql`";
 			$result1 = mysqli_query($sql,$list_tables);
@@ -196,12 +203,7 @@ $ConfigExists=0;
 			}
 
 	
-/////////////
-	// MODIFY SQL 
-	include_once("modifyDB_nodes.php");
-	
-	
-///////////////	
+
 
 } catch (mysqli_sql_exception $e) { 
 	$sql_error = $e->getMessage();
