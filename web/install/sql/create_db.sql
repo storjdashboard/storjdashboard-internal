@@ -1,9 +1,11 @@
 -- --------------------------------------------------------
--- Server OS:                    Linux
--- Project:			 StorjDashboard-Internal
+-- Server OS: Linux
+-- Project: StorjDashboard-Internal
 -- --------------------------------------------------------
 
--- Dumping structure for table hass_sd.config
+-- ----------------------------
+-- Table: config
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS `config` (
   `id` int(10) NOT NULL,
   `version` varchar(10) NOT NULL DEFAULT '1',
@@ -14,7 +16,9 @@ CREATE TABLE IF NOT EXISTS `config` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping structure for table hass_sd.docker
+-- ----------------------------
+-- Table: docker
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS `docker` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `docker_name` tinytext NOT NULL,
@@ -25,7 +29,9 @@ CREATE TABLE IF NOT EXISTS `docker` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='adding/removing docker';
 
--- Dumping structure for table hass_sd.login
+-- ----------------------------
+-- Table: login
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS `login` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(45) NOT NULL,
@@ -34,7 +40,9 @@ CREATE TABLE IF NOT EXISTS `login` (
   UNIQUE KEY `user_UNIQUE` (`user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping structure for table hass_sd.nodes
+-- ----------------------------
+-- Table: nodes
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS `nodes` (
   `node_id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT 'Node',
@@ -45,14 +53,18 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   PRIMARY KEY (`node_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping structure for table hass_sd.node_hosts
+-- ----------------------------
+-- Table: node_hosts
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS `node_hosts` (
   `host_id` int(11) NOT NULL AUTO_INCREMENT,
   `host_name` mediumtext DEFAULT NULL,
   PRIMARY KEY (`host_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping structure for table hass_sd.paystubs
+-- ----------------------------
+-- Table: paystubs
+-- ----------------------------
 CREATE TABLE IF NOT EXISTS `paystubs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `satelliteId` tinytext NOT NULL,
@@ -65,5 +77,3 @@ CREATE TABLE IF NOT EXISTS `paystubs` (
   `distributed` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='api/heldamount/paystubs/2000-01/YYYY-MM';
-
-
