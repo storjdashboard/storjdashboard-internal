@@ -1,0 +1,46 @@
+{
+  "config": {
+    "id": { "type": "int(10)", "not_null": true },
+    "version": { "type": "varchar(10)", "not_null": true, "default": "1" },
+    "show_live_bw": { "type": "int(10)", "not_null": true, "default": 0 },
+    "show_server_info": { "type": "int(10)", "not_null": true, "default": 0 },
+    "restrict": { "type": "int(10)", "not_null": true, "default": 0 },
+    "allow-ip-list": { "type": "longtext", "not_null": false }
+  },
+  "docker": {
+    "id": { "type": "int(11)", "not_null": true, "auto_increment": true },
+    "docker_name": { "type": "tinytext", "not_null": true },
+    "server_ip": { "type": "tinytext", "not_null": true },
+    "port": { "type": "int(11)", "not_null": true, "default": 4243 },
+    "user": { "type": "tinytext", "not_null": false },
+    "pw": { "type": "text", "not_null": false }
+  },
+  "login": {
+    "id": { "type": "int(11)", "not_null": true, "auto_increment": true },
+    "user": { "type": "varchar(45)", "not_null": true, "unique": true },
+    "pw": { "type": "mediumtext", "not_null": true }
+  },
+  "nodes": {
+    "node_id": { "type": "int(10)", "not_null": true, "auto_increment": true },
+    "name": { "type": "varchar(50)", "not_null": false, "default": "Node" },
+    "ip": { "type": "varchar(45)", "not_null": true },
+    "ext_ip": { "type": "varchar(50)", "not_null": false },
+    "port": { "type": "varchar(45)", "not_null": true },
+    "host_id": { "type": "int(11)", "not_null": false }
+  },
+  "node_hosts": {
+    "host_id": { "type": "int(11)", "not_null": true, "auto_increment": true },
+    "host_name": { "type": "mediumtext", "not_null": false }
+  },
+  "paystubs": {
+    "id": { "type": "int(11)", "not_null": true, "auto_increment": true },
+    "satelliteId": { "type": "tinytext", "not_null": true },
+    "period": { "type": "tinytext", "not_null": true },
+    "created": { "type": "tinytext", "not_null": true },
+    "held": { "type": "int(11)", "not_null": true, "default": 0 },
+    "owed": { "type": "int(11)", "not_null": true, "default": 0 },
+    "disposed": { "type": "int(11)", "not_null": true, "default": 0 },
+    "paid": { "type": "int(11)", "not_null": true, "default": 0 },
+    "distributed": { "type": "int(11)", "not_null": true, "default": 0 }
+  }
+}
