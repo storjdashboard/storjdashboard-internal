@@ -357,8 +357,6 @@ if(is_array($arr)){
 }
 if($validCheck>0){
 
-	////////
-	
 $diskAllocated = $arr['diskSpace']['allocated'] ?? null;
 $diskAvailable = $arr['diskSpace']['available'];
 $diskUsed = $arr['diskSpace']['used'];
@@ -378,8 +376,6 @@ $bandwidth = formatSize($bandwidthUsed);
 $capacity_all += $capacity_source;
 $storage_all += $storage_pure;
 $bandwidth_all += $bandwidthUsed;
-
-	////////
 	
 $node_ver = $arr['version'];
 $node_quic = $arr['quicStatus'];
@@ -476,7 +472,11 @@ $monthsAgo = $interval->y * 12 + $interval->m;
 //echo $monthsAgo . ' months ago';
 /////////////////////    
     
+$averageUsageBytes = formatSize($arr['averageUsageBytes']);
+$averageUsageBytes_pure = $arr['averageUsageBytes'];
 
+if($storage == "0.00B"){ $storage = $averageUsageBytes; };
+if($storage_pure == 0){ $storage_pure = $averageUsageBytes_pure; };
 
 
 $arr_counter = 0;
@@ -846,5 +846,4 @@ $total_cs = $up_cs+$down_cs;
 
             </div>
 <?php } ?>
-
 
