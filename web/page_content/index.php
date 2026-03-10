@@ -357,14 +357,29 @@ if(is_array($arr)){
 }
 if($validCheck>0){
 
-$capacity = formatSize($arr['diskSpace']['available']);
-$capacity_pure = $arr['diskSpace']['available'];
-$storage = formatSize($arr['diskSpace']['used']+$arr['diskSpace']['trash']);
-$storage_pure = $arr['diskSpace']['used']+$arr['diskSpace']['trash'];
-$bandwidth = formatSize($arr['bandwidth']['used']);
-$capacity_all = $capacity_all+$arr['diskSpace']['available'];
-$storage_all = $storage_all+$arr['diskSpace']['used']+$arr['diskSpace']['trash'];
-$bandwidth_all = $bandwidth_all+$arr['bandwidth']['used'];	
+	////////
+	
+$diskAllocated = $arr['diskSpace']['allocated'] ?? null;
+$diskAvailable = $arr['diskSpace']['available'];
+$diskUsed = $arr['diskSpace']['used'];
+$diskTrash = $arr['diskSpace']['trash'];
+$bandwidthUsed = $arr['bandwidth']['used'];
+
+$capacity_source = $diskAllocated ?? $diskAvailable;
+
+$capacity = formatSize($capacity_source);
+$capacity_pure = $capacity_source;
+
+$storage_pure = $diskUsed + $diskTrash;
+$storage = formatSize($storage_pure);
+
+$bandwidth = formatSize($bandwidthUsed);
+
+$capacity_all += $capacity_source;
+$storage_all += $storage_pure;
+$bandwidth_all += $bandwidthUsed;
+
+	////////
 	
 $node_ver = $arr['version'];
 $node_quic = $arr['quicStatus'];
@@ -831,4 +846,5 @@ $total_cs = $up_cs+$down_cs;
 
             </div>
 <?php } ?>
+
 
